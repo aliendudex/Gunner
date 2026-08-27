@@ -505,6 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   goblinPrefab: {fileID: 864452903963896580, guid: 59311bce64ee480468284be11d996a71, type: 3}
+  archerPrefab: {fileID: 8574606906256617098, guid: e5397aa8146375b4b8db71aaf3ed6b87, type: 3}
 --- !u!4 &1552070893
 Transform:
   m_ObjectHideFlags: 0

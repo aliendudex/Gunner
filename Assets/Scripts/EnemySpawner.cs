@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject goblinPrefab;
+    [SerializeField] private GameObject archerPrefab;
     private SimpleArrayList<Enemy> enemies;
 
     private void Start()
@@ -26,6 +27,11 @@ public class EnemySpawner : MonoBehaviour
         if(enemyName == "Goblin")
         {
             Instantiate(goblinPrefab);
+        }
+
+        if(enemyName == "Archer")
+        {
+            Instantiate(archerPrefab);
         }
     }
 

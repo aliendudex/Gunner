@@ -43,10 +43,13 @@ namespace ED262C
             last = newNode;
             count++;
         }
-
+        // Toma un array y agrega todo a la lista
         public void AddRange(T[] items)
         {
-            throw new System.NotImplementedException();
+            for(int i = 0; i < items.Length; i++)
+            {
+                Add(items[i]);
+            }
         }
 
         public void Clear()
@@ -63,10 +66,43 @@ namespace ED262C
         {
             return GetNodeByValue(item) != null;
         }
-
+        //Agrega el elemento en un indice especifico
         public void Insert(int index, T item)
         {
-            throw new System.NotImplementedException();
+            // Si se intenta agregar al final, es Add
+            if(index == count)
+            {
+                Add(item);
+                return;
+            }
+            // Si el indice no existe, rompemos el programa
+            if (index < 0 || index >= count)
+                throw new ArgumentOutOfRangeException("Index is outside of bounds");
+
+            // Creamos el nodo a insertar
+            LinkedNode<T> newNode = new LinkedNode<T>(item);
+            // Buscamos el nodo que actualmente esta en ese indice
+            LinkedNode<T> current = GetNodeByIndex(index);
+            // Si insertamos al principio, no hay prev y actualizamos first
+            if (index == 0)
+            {
+                newNode.next = current;
+                current.prev = newNode;
+                first = newNode;
+            }
+            // Si llegamos hasta aca, no es el primero ni el ultimo
+            else
+            {
+                // Seteamos las conexiones del nuevo nodo (no pisa nada)
+                newNode.prev = current.prev;
+                newNode.next = current;
+
+                // Seteamos las conexiones de los nodos para que apunten al nuevo
+                current.prev.next = newNode;
+                current.prev = newNode;
+            }
+
+            count++; 
         }
 
         public bool Remove(T item)
@@ -149,12 +185,81 @@ namespace ED262C
 
         public void RemoveRange(int index, int count)
         {
-            throw new System.NotImplementedException();
+            // Si el indice no existe, rompemos el programa
+            if (index < 0 || index >= this.count)
+                throw new ArgumentOutOfRangeException("Index is outside of bounds");
+
+            if (index + count >= this.count)
+                throw new ArgumentException("Offset and remove count exceed the last");
+            // Si estamos borrando del primero al ultimo, es un Clear
+            if(index == 0 && count == this.count)
+            {
+                Clear();
+                return;
+            }
+            // Si solo quiero remover un elemento, es RemoveAt
+            if(count == 1)
+            {
+                RemoveAt(index);
+                return;
+            }
+
+            // Buscamos al primer nodo a remover
+            LinkedNode<T> firstToRemove = GetNodeByIndex(index);
+            // Y de ahi buscamos al ultimo
+            LinkedNode<T> lastToRemove = firstToRemove;
+            // Desde ese primer nodo, pasamos al siguiente count veces
+            // OJO: este es el count del parametro, no de la lista
+            for (int i = 0; i < count; i++)
+            {
+                lastToRemove = lastToRemove.next;
+            }
+            // Esto es si removemos desde el primero, pero no hasta el ultimo
+            if (firstToRemove == first)
+            {
+                // Queda como primero el que venga despues del ultimo a remover
+                first = lastToRemove.next;
+                // Y ese nuevo primero nodo, no tiene prev
+                first.prev = null;
+            }
+            // Si removemos hasta el ultimo pero no desde el primero
+            else if(lastToRemove == last)
+            {
+                // Queda como ultimo el que venga antes del primero a remover
+                last = firstToRemove.next;
+                // Y ese nuevo ultimo nodo, no tiene next
+                last.next = null;
+            }
+            else
+            {
+                // Conectamos el anterior del primero a remover
+                // con el siguiente del ultimo a remover
+                firstToRemove.prev.next = lastToRemove.next;
+                lastToRemove.next.prev = firstToRemove.prev;
+            }
+
+            this.count -= count;
+
         }
 
         public T[] ToArray()
         {
-            throw new System.NotImplementedException();
+            // Este es el array que devolvemos
+            T[] result = new T[count];
+
+            // Empexamos desde el prmer nodo, pasamos uno por uno
+            LinkedNode<T> current = first;
+            for(int i = 0; i < count; i++)
+            {
+                // Guardamos lo que esta en este nodo, en el indice actual
+                result[i] = current.value;
+
+                // Pasamos al siguiente
+                current = current.next;
+                // Guardamos lo que esta en cada nodo en un indice del array
+            }
+
+            return result;
         }
 
         // Usamos esta funcion para el indexer, Remove, Insert, etc.
