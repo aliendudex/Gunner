@@ -119,6 +119,53 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &243777398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 243777400}
+  - component: {fileID: 243777399}
+  m_Layer: 0
+  m_Name: EnemyFactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &243777399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243777398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae209de0b2aee84eaa26d672bb6fa47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyFactory
+  goblinPrefab: {fileID: 864452903963896580, guid: 59311bce64ee480468284be11d996a71, type: 3}
+  archerPrefab: {fileID: 8574606906256617098, guid: e5397aa8146375b4b8db71aaf3ed6b87, type: 3}
+  knightPrefab: {fileID: 7769589496535466068, guid: f61483e3d7811e74cb979dddc041cb57, type: 3}
+--- !u!4 &243777400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243777398}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.16236, y: -0.26329, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +501,7 @@ Transform:
   m_GameObject: {fileID: 940772517}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.18643, y: -0.4239, z: 0}
+  m_LocalPosition: {x: -6.99, y: -0.4239, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -470,11 +517,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 940772517}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0820564b9ff1354fb6f153da7e133ed, type: 3}
+  m_Script: {fileID: 11500000, guid: bfbfb1b0114480342a3578ed7c4079a9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
-  speed: 5
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   rb: {fileID: 940772518}
+  movement: {x: 0, y: 0}
 --- !u!1 &1552070891
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,28 +531,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1552070893}
-  - component: {fileID: 1552070892}
+  - component: {fileID: 1552070894}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1552070892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1552070891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2350a2ac032f4a469d9fd35f7c9c3ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  goblinPrefab: {fileID: 864452903963896580, guid: 59311bce64ee480468284be11d996a71, type: 3}
-  archerPrefab: {fileID: 8574606906256617098, guid: e5397aa8146375b4b8db71aaf3ed6b87, type: 3}
 --- !u!4 &1552070893
 Transform:
   m_ObjectHideFlags: 0
@@ -521,6 +554,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1552070894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552070891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2350a2ac032f4a469d9fd35f7c9c3ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  enemyFactory: {fileID: 243777399}
+  numberOfEnemies: 5
 --- !u!1 &1786295204
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,3 +667,4 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 1552070893}
   - {fileID: 940772520}
+  - {fileID: 243777400}

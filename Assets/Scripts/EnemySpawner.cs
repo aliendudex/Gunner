@@ -3,47 +3,63 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject goblinPrefab;
-    [SerializeField] private GameObject archerPrefab;
-    private SimpleArrayList<Enemy> enemies;
+    [SerializeField] private EnemyFactory enemyFactory;
+    [SerializeField] private int numberOfEnemies = 5;
+
+    private Camera mainCamera;
 
     private void Start()
     {
-        enemies = new SimpleArrayList<Enemy>();
-
-        AddEnemy("Goblin");
-        AddEnemy("Goblin");
-        AddEnemy("Archer");
-        AddEnemy("Knight");
-
-        ShowEnemies();
+        mainCamera = Camera.main;
+        SpawnEnemies();
     }
 
-    private void AddEnemy(string enemyName)
+    private void SpawnEnemies()
     {
-        Enemy enemy = new Enemy(enemyName);
-        enemies.Add(enemy);
-
-        if(enemyName == "Goblin")
+        for (int i = 0; i < numberOfEnemies; i++)
         {
-            Instantiate(goblinPrefab);
-        }
+            string enemyType = GetRandomEnemyType();
+            Vector3 spawnPosition = GetRandomSpawnPosition();
 
-        if(enemyName == "Archer")
-        {
-            Instantiate(archerPrefab);
+            Debug.Log("Spawning enemy: " + enemyType + " at " + spawnPosition);
+
+            enemyFactory.CreateEnemy(enemyType, spawnPosition);
         }
     }
 
-    private void ShowEnemies()
+    private string GetRandomEnemyType()
     {
-        Debug.Log("=== ENEMIGOS DEL SPAWNER ===");
+        int randomNumber = Random.Range(0, 3);
 
-        for (int i = 0; i < enemies.Count; i++)
+        if (randomNumber == 0)
         {
-            Debug.Log("Enemigo " + i + ": " + enemies[i]);
+            return "Goblin";
         }
+        else if (randomNumber == 1)
+        {
+            return "Archer";
+        }
+        else
+        {
+            return "Knight";
+        }
+    }
 
-        Debug.Log("Total de enemigos: " + enemies.Count);
+    private Vector3 GetRandomSpawnPosition()
+    {
+        float cameraHeight = mainCamera.orthographicSize;
+        float cameraWidth = cameraHeight * mainCamera.aspect;
+
+        float x = Random.Range(
+            mainCamera.transform.position.x - cameraWidth,
+            mainCamera.transform.position.x + cameraWidth
+        );
+
+        float y = Random.Range(
+            mainCamera.transform.position.y - cameraHeight,
+            mainCamera.transform.position.y + cameraHeight
+        );
+
+        return new Vector3(x, y, 0f);
     }
 }
