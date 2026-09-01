@@ -6,11 +6,11 @@ namespace ED262C
     public class SimpleLinkedList<T> : ISimpleList<T>
     {
         // Referencias al primer y ultimo nodo
-        LinkedNode<T> first;
-        LinkedNode<T> last;
+        LinkedNode<T> first = null;
+        LinkedNode<T> last = null;
         
         // Cantidad de elementos guardados en la lista
-        int count;
+        int count = 0;
 
         // myList[3] y va al "indice" 3
         public T this[int index] 
@@ -210,7 +210,7 @@ namespace ED262C
             LinkedNode<T> lastToRemove = firstToRemove;
             // Desde ese primer nodo, pasamos al siguiente count veces
             // OJO: este es el count del parametro, no de la lista
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count - 1; i++)
             {
                 lastToRemove = lastToRemove.next;
             }
