@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject optionsMenu;
-    [SerializeField] private GameObject controlsMenu;
+    [SerializeField] private GameObject[] menus;
 
     private SimpleArrayStack<MenuType> menuStack;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,40 +28,58 @@ public class MenuManager : MonoBehaviour
     {
         if(menuStack.Count > 1)
         {
-            menuStack.Pop();
+            MenuType menuToClose = menuStack.Pop();
+            //switch (menuToClose)
+            //{
+            //    case MenuType.Options:
+            //        optionsMenu.SetActive(false);
+            //        break;
+            //    case MenuType.Controls:
+            //        controlsMenu.SetActive(false);
+            //        break;
+            //}
             UpdateMenu();
 
             Debug.Log("Went back to: " + menuStack.Peek());
         }
     }
 
-    public void OpenOptions()
+    public void OpenMenuInt(int enumIndex)
     {
-        OpenMenu(MenuType.Options);
-    }
-
-    public void OpenControls()
-    {
-        OpenMenu(MenuType.Controls);
+        if(enumIndex < 0 || enumIndex > menus.Length)
+        {
+            Debug.LogWarning("Invalid menu index: " + enumIndex);
+        }
+        OpenMenu((MenuType)enumIndex);
     }
 
     public void UpdateMenu()
     {
-        mainMenu.SetActive(false);
-        optionsMenu.SetActive(false);
-        controlsMenu.SetActive(false);
-
-        switch (menuStack.Peek())
+        // Sacan del stack un MenuType, y lo castean a int
+        // Le dan SetActive al indice correspondiente
+        // ej: si reciben MenuType.Main, abre menus[i]
+        for (int i = 0; i < menus.Length; i++)
         {
-            case MenuType.Main:
-                mainMenu.SetActive(true);
-                break;
-            case MenuType.Options:
-                optionsMenu.SetActive(true);
-                break;
-            case MenuType.Controls:
-                controlsMenu.SetActive(true);
-                break;
+            menus[i].SetActive(false);
         }
+
+        MenuType[] activeMenus = menuStack.ToArray();
+
+        for (int i = 0; i < activeMenus.Length; i++)
+        {
+            menus[(int)activeMenus[i]].SetActive(true);
+        }
+        //switch (menuStack.Peek())
+        //{
+        //    case MenuType.Main:
+        //        mainMenu.SetActive(true);
+        //        break;
+        //    case MenuType.Options:
+        //        optionsMenu.SetActive(true);
+        //        break;
+        //    case MenuType.Controls:
+        //        controlsMenu.SetActive(true);
+        //        break;
+        //}
     }
 }
