@@ -27,7 +27,7 @@ namespace ED262C
             // Inicializamos el array interno con el mismo largo que el original
             internalArray = new T[originalArray.Length];
             // Copiamos todos los elementos de uno a otro
-            for(int i = 0; i < originalArray.Length; i++)
+            for (int i = 0; i < originalArray.Length; i++)
             {
                 internalArray[i] = originalArray[i];
             }
@@ -39,7 +39,7 @@ namespace ED262C
         // Si lo contiene, devuelve false
         public bool Add(T item)
         {
-            if(Contains(item)) return false;
+            if (Contains(item)) return false;
             // Antes de agregar, verifica que haya espacio y resizea de ser necesario
             ValidateSize(count);
             internalArray[count] = item;
@@ -83,7 +83,7 @@ namespace ED262C
             // Arrancamos con un Set vacio
             ISimpleSet<T> result = new SimpleArraySet<T>();
             // Recorremos nuestro array (garantiza que esten los elementos de este Set)
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 // Solo agregamos si el otro set tambien lo contiene
                 if (other.Contains(internalArray[i]))
@@ -138,7 +138,7 @@ namespace ED262C
             ISimpleSet<T> result = new SimpleArraySet<T>(other);
             // Agregamos todos los elementos de este Set
             // Si estan repetidos, Add ya los filtra (no llamamos a Contains)
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 result.Add(internalArray[i]);
             }
@@ -175,7 +175,7 @@ namespace ED262C
         int IndexOf(T item)
         {
             // Pasamos uno por uno buscando el item
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 if (internalArray[i].Equals(item)) return i;
             }
