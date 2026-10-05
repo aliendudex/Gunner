@@ -13,7 +13,31 @@ namespace ED262C
         {
             internalArray = new KeyValuePair<TKey, TValue>[defaultCapacity];
         }
-        public TValue this[TKey key] { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public TValue this[TKey key]
+        {
+            get
+            {
+                int index = IndexOf(key);
+
+                if (index < 0)
+                    throw new KeyNotFoundException("Key was not found");
+
+                return internalArray[index].Value;
+            }
+            set
+            {
+                int index = IndexOf(key);
+
+                if (index < 0)
+                {
+                    ExecuteAdd(key, value);
+                }
+                else
+                {
+                    internalArray[index] = new KeyValuePair<TKey, TValue>(key, value);
+                }
+            }
+        }
 
         public int Count => count;
 
@@ -58,17 +82,43 @@ namespace ED262C
 
         public bool Remove(TKey key)
         {
-            throw new System.NotImplementedException();
+            int index = IndexOf(key);
+
+            if (index < 0)
+                return false;
+
+            for (int i = index; i < count - 1; i++)
+            {
+                internalArray[i] = internalArray[i + 1];
+            }
+
+            internalArray[count - 1] = default(KeyValuePair<TKey, TValue>);
+            count--;
+
+            return true;
         }
 
         public bool TryAdd(TKey key, TValue value)
         {
-            throw new System.NotImplementedException();
+            if (ContainsKey(key))
+                return false;
+
+            ExecuteAdd(key, value);
+            return true;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            throw new System.NotImplementedException();
+            int index = IndexOf(key);
+
+            if (index < 0)
+            {
+                value = default(TValue);
+                return false;
+            }
+
+            value = internalArray[index].Value;
+            return true;
         }
 
         public TValue[] Values()
