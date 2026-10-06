@@ -14,28 +14,29 @@ namespace ED262C
             internalArray = new KeyValuePair<TKey, TValue>[defaultCapacity];
         }
         public TValue this[TKey key]
-        {
+        { 
             get
             {
+                // Tira excepcion si la key es null o no estaba en el diccionario
+                if (key == null) throw new ArgumentNullException("Key cannot be null.");
                 int index = IndexOf(key);
-
-                if (index < 0)
-                    throw new KeyNotFoundException("Key was not found");
-
+                if(index == -1)
+                {
+                    throw new KeyNotFoundException();
+                }
                 return internalArray[index].Value;
             }
             set
             {
+                // Tira excepion si la key es null
+                if (key == null) throw new ArgumentNullException("Key cannot be null.");
+                // Busca la key. Si no esta, agrega una nueva, y si esta actualiza el value
                 int index = IndexOf(key);
-
-                if (index < 0)
+                if(index == -1)
                 {
                     ExecuteAdd(key, value);
                 }
-                else
-                {
-                    internalArray[index] = new KeyValuePair<TKey, TValue>(key, value);
-                }
+                internalArray[index] = new KeyValuePair<TKey, TValue>(key, value);
             }
         }
 
@@ -45,6 +46,7 @@ namespace ED262C
 
         public void Add(TKey key, TValue value)
         {
+            if (key == null) throw new ArgumentNullException("Key cannot be null.");
             if (ContainsKey(key))
             {
                 throw new ArgumentException("Key is already in Dictionary");
@@ -82,41 +84,54 @@ namespace ED262C
 
         public bool Remove(TKey key)
         {
+            if (key == null) throw new ArgumentNullException("Key cannot be null.");
+            // buscamos la key
             int index = IndexOf(key);
-
-            if (index < 0)
-                return false;
-
-            for (int i = index; i < count - 1; i++)
+            // Si no esta, devolvemos false
+            if (index == -1)
             {
-                internalArray[i] = internalArray[i + 1];
+                return false;
             }
-
-            internalArray[count - 1] = default(KeyValuePair<TKey, TValue>);
+            // Si no es el ultimo elemento, movemos el ultimo a la posicion removida
+            if (index != count - 1)
+            {
+                internalArray[index] = internalArray[count - 1];
+            }
+            // De cualquier manera, vaciamos ese elemento y bajamos el count
+            internalArray[count - 1] = default;
             count--;
-
             return true;
         }
 
+        //    internalArray[count - 1] = default(KeyValuePair<TKey, TValue>);
+        //    count--;
+
+        //    return true;
+        //}
+
         public bool TryAdd(TKey key, TValue value)
         {
+            if (key == null) throw new ArgumentNullException("Key cannot be null.");
             if (ContainsKey(key))
+            {
                 return false;
-
+            }
             ExecuteAdd(key, value);
             return true;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
         {
+            if (key == null) throw new ArgumentNullException("Key cannot be null.");
+            // Buscamos la key
             int index = IndexOf(key);
-
-            if (index < 0)
+            // Si no esta, devolvemos flse y out vacio
+            if (index == -1)
             {
-                value = default(TValue);
+                value = default;
                 return false;
             }
-
+            // Si esta, devolvemos true y guardamos el value en value
             value = internalArray[index].Value;
             return true;
         }
@@ -149,7 +164,7 @@ namespace ED262C
             while (targetAmount > currentLength)
                 currentLength *= 2;
 
-            // Creamos un array del doble de largo que el actual
+            // Creamos un array del oble de largo que el actual
             KeyValuePair<TKey, TValue>[] nextArray = new KeyValuePair<TKey, TValue>[currentLength];
 
             // Copiamos todo lo que hay en el array actual al nuevo
@@ -176,7 +191,7 @@ namespace ED262C
         // La tienen en comun el indexer (set), Add y TryAdd
         void ExecuteAdd(TKey key, TValue value)
         {
-            ValidateSize(count);
+            ValidateSize(count + 1);
             internalArray[count] = new KeyValuePair<TKey, TValue>(key, value);
             count++;
         }

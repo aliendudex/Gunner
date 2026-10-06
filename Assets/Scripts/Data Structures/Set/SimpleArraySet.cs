@@ -41,7 +41,7 @@ namespace ED262C
         {
             if (Contains(item)) return false;
             // Antes de agregar, verifica que haya espacio y resizea de ser necesario
-            ValidateSize(count);
+            ValidateSize(count+1);
             internalArray[count] = item;
             count++;
             return true;
