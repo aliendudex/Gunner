@@ -9,7 +9,7 @@ public class EnemyFactory : MonoBehaviour
  [SerializeField] private GameObject knightPrefab;
 
  private SimpleArrayList<Enemy> enemyList;
- private Dictionary<string, GameObject> enemyDictionary = new Dictionary<string, GameObject>();
+ private SimpleArrayDictionary<string, GameObject> enemyDictionary = new SimpleArrayDictionary<string, GameObject>();
 
  private void Awake()
  {

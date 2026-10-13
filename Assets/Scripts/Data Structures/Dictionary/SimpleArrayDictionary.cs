@@ -32,11 +32,14 @@ namespace ED262C
                 if (key == null) throw new ArgumentNullException("Key cannot be null.");
                 // Busca la key. Si no esta, agrega una nueva, y si esta actualiza el value
                 int index = IndexOf(key);
-                if(index == -1)
+                if (index == -1)
                 {
                     ExecuteAdd(key, value);
                 }
-                internalArray[index] = new KeyValuePair<TKey, TValue>(key, value);
+                else
+                {
+                    internalArray[index] = new KeyValuePair<TKey, TValue>(key, value);
+                }
             }
         }
 
@@ -56,6 +59,10 @@ namespace ED262C
 
         public void Clear()
         {
+            if (IsEmpty)
+            {
+                return;
+            }
             internalArray = new KeyValuePair<TKey, TValue>[count];
             count = 0;
         }
