@@ -37,6 +37,11 @@ namespace ED262C
             internalArray = new T[defaultCapacity];
         }
 
+        public SimpleArrayList(int initialCapacity)
+        {
+            internalArray = new T[Math.Max(initialCapacity, 1)];
+        }
+
         // Add agrega el elemento item al final
         public void Add(T item)
         {
