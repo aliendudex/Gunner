@@ -1,10 +1,13 @@
 using UnityEngine;
+using TMPro;
 using ED262C;
 
 public class InventoryShopTest : MonoBehaviour
 {
     private SimpleArrayDictionary<int, string> inventory;
     private SimpleArrayDictionary<int, string> shop;
+    [SerializeField] private TMP_Text shopText;
+    [SerializeField] private TMP_Text inventoryText;
 
     private void Start()
     {
@@ -21,6 +24,7 @@ public class InventoryShopTest : MonoBehaviour
         inventory.Add(103, "Shield");
 
         Debug.Log("=== SHOP ===");
+        shopText.text = "=== SHOP ===\n";
 
         int[] shopIDs = shop.Keys();
         string[] shopItems = shop.Values();
@@ -28,9 +32,11 @@ public class InventoryShopTest : MonoBehaviour
         for (int i = 0; i < shop.Count; i++)
         {
             Debug.Log("ID: " + shopIDs[i] + " | Item: " + shopItems[i]);
+            shopText.text += "ID: " + shopIDs[i] + " | " + shopItems[i] + "\n";
         }
 
         Debug.Log("=== INVENTARIO ===");
+        inventoryText.text = "=== INVENTARIO ===\n";
 
         int[] inventoryIDs = inventory.Keys();
         string[] inventoryItems = inventory.Values();
@@ -38,6 +44,7 @@ public class InventoryShopTest : MonoBehaviour
         for (int i = 0; i < inventory.Count; i++)
         {
             Debug.Log("ID: " + inventoryIDs[i] + " | Item: " + inventoryItems[i]);
+            inventoryText.text += "ID: " + inventoryIDs[i] + " | " + inventoryItems[i] + "\n";
         }
 
         Debug.Log("=== BUSCAR ITEM ===");
