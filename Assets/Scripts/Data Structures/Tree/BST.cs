@@ -18,7 +18,7 @@ namespace ED262C
         {
             root = InsertRecursive(root, value);
         }
-        TreeNode<T> InsertRecursive (TreeNode<T> current, T value)
+        protected virtual TreeNode<T> InsertRecursive (TreeNode<T> current, T value)
         {
             // Chequeamos si el nodo es null
             // Caso base: creamos y devolvemos un nuevo nodo
@@ -50,7 +50,7 @@ namespace ED262C
             root = RemoveRecursive(root, value);
         }
 
-        TreeNode<T> RemoveRecursive(TreeNode<T> current, T value)
+       protected virtual TreeNode<T> RemoveRecursive(TreeNode<T> current, T value)
         {
             // Caso base: llegamos al final del arbol y no estaba el valor
             if(current == null)
@@ -152,6 +152,11 @@ namespace ED262C
 
         protected int GetNodeBalanceFactor(TreeNode<T> node)
         {
+            if (node == null)
+            {
+                return 0;
+            }
+
             return GetNodeHeight(node.Left) - GetNodeHeight(node.Right);
         }
         // DFS (Pre, In, Post Order)
@@ -183,9 +188,9 @@ namespace ED262C
             {
                 return;
             }
-            PreOrderDFS(current.Left);
+            InOrderDFS(current.Left);
             Debug.Log(current.Value.ToString());
-            PreOrderDFS(current.Right);
+            InOrderDFS(current.Right);
         }
 
         public void PostOrder()
@@ -198,8 +203,8 @@ namespace ED262C
             {
                 return;
             }
-            PreOrderDFS(current.Left);
-            PreOrderDFS(current.Right);
+            PostOrderDFS(current.Left);
+            PostOrderDFS(current.Right);
             Debug.Log(current.Value.ToString());
         }
         // BFS

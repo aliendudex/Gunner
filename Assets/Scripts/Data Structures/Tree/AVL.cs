@@ -20,6 +20,10 @@ namespace ED262C
         }
         TreeNode<T> RebalanceNode(TreeNode<T> node)
         {
+            if (node == null)
+            {
+                return null;
+            }
             int bf = GetNodeBalanceFactor(node);
             // Caso Lx
             if(bf > 1)
@@ -66,7 +70,7 @@ namespace ED262C
             TreeNode<T> y = x.Right;
             TreeNode<T> t2 = y.Left;
 
-            y.Left = y;
+            y.Left = x;
             x.Right = t2;
 
             return y;
