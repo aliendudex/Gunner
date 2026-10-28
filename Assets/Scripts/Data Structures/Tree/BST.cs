@@ -192,6 +192,29 @@ namespace ED262C
             Debug.Log(current.Value.ToString());
             InOrderDFS(current.Right);
         }
+        // new
+
+        public ISimpleList<T> InOrderList()
+        {
+            ISimpleList<T> result = new SimpleArrayList<T>(Count);
+            InOrderListRecursive(root, result);
+            return result;
+        }
+
+        void InOrderListRecursive(TreeNode<T> current, ISimpleList<T> result)
+        {
+            if (current == null)
+            {
+                return;
+            }
+
+            InOrderListRecursive(current.Left, result);
+            result.Add(current.Value);
+            InOrderListRecursive(current.Right, result);
+        }
+
+        // new
+
 
         public void PostOrder()
         {
