@@ -80,7 +80,22 @@ namespace ED262C
 
         public bool RemoveEdge(T from, T to)
         {
-            throw new System.NotImplementedException();
+            // Si no esta el nodo origen, no se puede remover
+            if (!ContainsVertex(from))
+            {
+                return false;
+            }
+            // Buscamos el edge a remover
+            Edge<T> edge = GetEdge(from, to);
+
+            // Si no esta el edge, tampoco se puede
+            if(edge == null)
+            {
+                return false;
+            }
+            // Si estan ambos, lo removemos y devolvemos true
+            adjacencyList[from].Remove(edge);
+            return true;
         }
 
         public bool RemoveVertex(T vertex)
@@ -90,14 +105,21 @@ namespace ED262C
             {
                 return false;
             }
+            // Buscamos todos los vertices como origen de un Edge que apunta al que queremos remover
+            // Borramos todos los edges para que no queden referencas colgadas
             for (int i = 0; i < Vertices.Length; i++)
             {
                 if (Vertices[i].Equals(vertex))
                 {
                     continue;
                 }
-                Edge<T> targetEdge = GetEdge(Vertices[i], vertex);
+                //Edge<T> targetEdge = GetEdge(Vertices[i], vertex);
+                // RemoveEdge ya busca al edge a remover
+                RemoveEdge(Vertices[i], vertex);
             }
+            // Ahora que borramos todas las aristas vinculadas, podemos borrar al vertice
+            // Remove va a devolver true porque ya chequeamos que existe
+            return adjacencyList.Remove(vertex);
         }
 
         Edge<T> GetEdge(T from, T to)
