@@ -1,6 +1,5 @@
 using UnityEngine;
 using ED262C;
-using System;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -22,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     private void Awake()
     {
         priorityQueue = new SimpleArrayPriorityQueue<EnemyContext>();
-        actionBool = true; 
+        actionBool = true;
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -61,7 +60,6 @@ public class EnemyAI : MonoBehaviour
         {
             case EnemyContext.Die:
                 Activator(false, false, false, true);
-                Debug.Log("DYING");
                 break;
 
             case EnemyContext.Attack:
@@ -79,7 +77,6 @@ public class EnemyAI : MonoBehaviour
 
             case EnemyContext.Idle:
                 Activator(true, false, false, false);
-                Debug.Log("IDLE");
                 break;
         }
         Animations();
@@ -99,24 +96,22 @@ public class EnemyAI : MonoBehaviour
             moveSpeed * Time.deltaTime
         ).x;
 
-        if( newL < 0 ) renderer.flipX = false;
+        if (transform.position.x < player.transform.position.x) renderer.flipX = false;
         else renderer.flipX = true;
         Activator(false, true, false, false);
-
-        Debug.Log("SEEKING");
     }
 
     public void Attack()
     {
         float angle = Mathf.Atan2(player.transform.position.y, player.transform.position.x) * Mathf.Rad2Deg - 90f;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        Quaternion final = Quaternion.Slerp(transform.rotation, rotation, 100 * Time.deltaTime);
         //Vector2 Direction = (player.transform.position - transform.position).normalized;
 
-        Instantiate(attack, transform.position, Quaternion.Euler(0,0, angle));
-
-        Debug.Log("ATTACKING");
+        Instantiate(attack, transform.position, final);
     }
 
-    private void Animations() 
+    private void Animations()
     {
         animator.SetBool("Idle", animBools[0]);
         animator.SetBool("Move", animBools[1]);
@@ -124,7 +119,7 @@ public class EnemyAI : MonoBehaviour
         animator.SetBool("Die", animBools[3]);
     }
 
-    private void Activator(bool yeah1, bool yeah2, bool yeah3, bool yeah4) 
+    private void Activator(bool yeah1, bool yeah2, bool yeah3, bool yeah4)
     {
         animBools[0] = yeah1;
         animBools[1] = yeah2;
@@ -132,13 +127,14 @@ public class EnemyAI : MonoBehaviour
         animBools[3] = yeah4;
     }
 
-    public void Ender() 
+    public void Ender()
     {
         Destroy(gameObject);
     }
-    
-    public void Bye_Bye() 
+
+    public void Bye_Bye()
     {
+        Debug.Log("Got hit pal");
         health = 0;
     }
     public void Moving()
@@ -148,5 +144,10 @@ public class EnemyAI : MonoBehaviour
     public void Stopping()
     {
         actionBool = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Finish")) Destroy(this.gameObject);
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
  using ED262C;
+using UnityEngine.SceneManagement;
 
 public class RoomGenerator : MonoBehaviour
  {
@@ -72,6 +73,7 @@ public class RoomGenerator : MonoBehaviour
  if (generatedRooms >= maxRooms)
  {
  Debug.Log("Se alcanzo el maximo de salas.");
+ SceneManager.LoadScene("PantallaVictoria");
  return;
  }
 

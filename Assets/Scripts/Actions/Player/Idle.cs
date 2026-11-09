@@ -14,20 +14,18 @@ public class Idle : IState
     {
         player.animator.SetBool("Idle", true);
         player.animator.SetBool("Move", false);
-        Debug.Log("Enter Idle");
     }
 
     public void Exit()
     {
         player.animator.SetBool("Idle", false);
-        Debug.Log("Exit Idle");
     }
 
     public void UpdateState()
     {
         player.movement.x = Input.GetAxisRaw("Horizontal");
         player.movement.y = Input.GetAxisRaw("Vertical");
-        if(player.movement.x != 0 || player.movement.y != 0)
+        if (player.movement.x != 0 || player.movement.y != 0)
         {
             player.stateMachine.ChangeState(player.stateMachine.WalkState);
         }

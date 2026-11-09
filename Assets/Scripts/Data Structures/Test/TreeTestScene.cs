@@ -6,47 +6,36 @@ public class TreeTestScene : MonoBehaviour
 {
     void Start()
     {
-        int[] values = { 10, 20, 30, 40, 50, 25 };
+        AVL<ShopItem> shopTree = new AVL<ShopItem>();
 
-        BST<int> bst = new BST<int>();
-        AVL<int> avl = new AVL<int>();
+        shopTree.Insert(new ShopItem("Potion", 20));
+        shopTree.Insert(new ShopItem("Sword", 80));
+        shopTree.Insert(new ShopItem("Shield", 50));
+        shopTree.Insert(new ShopItem("Bow", 65));
+        shopTree.Insert(new ShopItem("Helmet", 35));
 
-        // Insert the same values into both trees.
-        foreach (int value in values)
+        Debug.Log("===== ALL SHOP ITEMS (SORTED) =====");
+
+        ISimpleList<ShopItem> sortedItems = shopTree.InOrderList();
+
+        for (int i = 0; i < sortedItems.Count; i++)
         {
-            bst.Insert(value);
-            avl.Insert(value);
+            Debug.Log(sortedItems[i]);
         }
 
-        // Test the normal BST.
-        Debug.Log("===== NORMAL BST =====");
-        Debug.Log("Count: " + bst.Count);
-        Debug.Log("Height: " + bst.Height);
-        Debug.Log("Root balance factor: " + bst.BalanceFactor);
-        Debug.Log("Contains 25: " + bst.Contains(25));
-        Debug.Log("In-order traversal:");
-        bst.InOrder();
+        int maxPrice = 50;
 
-        // Test the AVL tree.
-        Debug.Log("===== AVL TREE =====");
-        Debug.Log("Count: " + avl.Count);
-        Debug.Log("Height: " + avl.Height);
-        Debug.Log("Root balance factor: " + avl.BalanceFactor);
-        Debug.Log("Contains 25: " + avl.Contains(25));
-        Debug.Log("In-order traversal:");
-        avl.InOrder();
+        Debug.Log("===== ITEMS COSTING $" + maxPrice + " OR LESS =====");
 
-        // Test removal from both trees.
-        bst.Remove(30);
-        avl.Remove(30);
+        for (int i = 0; i < sortedItems.Count; i++)
+        {
+            if (sortedItems[i].Price <= maxPrice)
+            {
+                Debug.Log(sortedItems[i]);
+            }
+        }
 
-        Debug.Log("===== AFTER REMOVING 30 =====");
-        Debug.Log("BST still contains 30: " + bst.Contains(30));
-        Debug.Log("AVL still contains 30: " + avl.Contains(30));
-        Debug.Log("BST count: " + bst.Count);
-        Debug.Log("AVL count: " + avl.Count);
-        Debug.Log("AVL height after removal: " + avl.Height);
-        Debug.Log("AVL in-order traversal after removal:");
-        avl.InOrder();
+        Debug.Log("Tree Height: " + shopTree.Height);
+        Debug.Log("Root Balance Factor: " + shopTree.BalanceFactor);
     }
 }

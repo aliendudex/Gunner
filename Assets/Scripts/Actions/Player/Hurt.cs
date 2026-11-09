@@ -19,23 +19,24 @@ public class Hurt : IState
 
     public void Exit()
     {
-        Debug.Log("Exit Idle");
+        player.animator.SetBool("Hurt", false);
     }
 
     public void UpdateState()
     {
-        player.movement.x = Input.GetAxisRaw("Horizontal");
-        player.movement.y = Input.GetAxisRaw("Vertical");
-        if (player.movement.x != 0 || player.movement.y != 0)
-        {
-            player.stateMachine.ChangeState(player.stateMachine.WalkState);
-        }
-        if (player.movement.x == 0 && player.movement.y == 0)
-        {
-            player.stateMachine.ChangeState(player.stateMachine.IdleState);
-        }
-        if(Input.GetKeyDown(KeyCode.E)) player.stateMachine.ChangeState(player.stateMachine.ShootState);
+        //player.movement.x = Input.GetAxisRaw("Horizontal");
+        //player.movement.y = Input.GetAxisRaw("Vertical");
+        //if (player.movement.x != 0 || player.movement.y != 0)
+        //{
+        //    player.stateMachine.ChangeState(player.stateMachine.WalkState);
+        //}
+        //if (player.movement.x == 0 && player.movement.y == 0)
+        //{
+        //    player.stateMachine.ChangeState(player.stateMachine.IdleState);
+        //}
+        //if(Input.GetKeyDown(KeyCode.E)) player.stateMachine.ChangeState(player.stateMachine.ShootState);
         if (player.Health <= 0) player.stateMachine.ChangeState(player.stateMachine.DieState);
+        if(player.perish == false) player.stateMachine.ChangeState(player.stateMachine.IdleState);
     }
 }
 

@@ -16,7 +16,6 @@ public class Die : IState
 
     public void Exit()
     {
-        Debug.Log("Exit Idle");
     }
 
     public void UpdateState()

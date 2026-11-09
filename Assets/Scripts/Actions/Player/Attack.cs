@@ -14,12 +14,10 @@ public class Attack : IState
         player.animator.SetBool("Attack", true);
         player.animator.SetBool("Idle", false);
         player.animator.SetBool("Move", false);
-        Debug.Log("Enter Idle");
     }
 
     public void Exit()
     {
-        Debug.Log("Exit Idle");
     }
 
     public void UpdateState()

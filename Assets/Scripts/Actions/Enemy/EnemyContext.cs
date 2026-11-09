@@ -1,6 +1,6 @@
 public enum EnemyContext
 {
-    Die,
+    Die, 
     Attack,
     Chase,
     Search,

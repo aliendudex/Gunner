@@ -14,21 +14,23 @@ public class Walk : IState
         speed = 5;
         player.animator.SetBool("Idle", false);
         player.animator.SetBool("Move", true);
-        Debug.Log("Enter Walk");
     }
 
     public void Exit()
     {
         player.animator.SetBool("Move", false);
-        Debug.Log("Exit Walk");
     }
 
     public void UpdateState()
     {
         player.movement.x = Input.GetAxisRaw("Horizontal");
         player.movement.y = Input.GetAxisRaw("Vertical");
+
+        if (player.movement.x < 0) player.LeftOrRight(true);
+        else if (player.movement.x > 0) player.LeftOrRight(false);
+
         player.rb.MovePosition(player.rb.position + player.movement * speed * Time.deltaTime);
-        if(player.movement.x == 0 && player.movement.y == 0)
+        if (player.movement.x == 0 && player.movement.y == 0)
         {
             player.stateMachine.ChangeState(player.stateMachine.IdleState);
         }
