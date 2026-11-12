@@ -11,6 +11,7 @@ namespace ED262C
         // Para top-down 2D: Vector2Int y Matriz GraphNode<Vector2Int>[,]
         // for(int x = 0...)
         // for(int y = 0...)
+        // Ej: Matrix[1,2].isBlocked = True
         public GraphNode(T value) => this.Value = value;
     }
 }
