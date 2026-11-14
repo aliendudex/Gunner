@@ -115,6 +115,7 @@ namespace ED262C
             // Si era el ultimo, lo borramos
             // Si no era el ultimo, lo borramos para que no quede duplicado
             internalArray[count - 1] = default;
+            count--;
             return true;
         }
 

@@ -136,7 +136,11 @@ namespace ED262C
             for(int i = 0; i < neighborEdges.Count; i++)
             {
                 // Si el Edge tiene el mismo destino, es el que buscamos
-                if (neighborEdges[i].ToString().Equals(to))
+                //if (neighborEdges[i].ToString().Equals(to))
+                //{
+                //    return neighborEdges[i];
+                //}
+                if (object.Equals(neighborEdges[i].to, to))
                 {
                     return neighborEdges[i];
                 }

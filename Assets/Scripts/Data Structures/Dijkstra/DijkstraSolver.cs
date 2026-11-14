@@ -47,6 +47,13 @@ namespace ED262C
                     if(totalWeight < result[neighbors[i].to].weight)
                     {
                         result[neighbors[i].to].weight = totalWeight;
+                        result[neighbors[i].to].to = current;
+                    }
+
+                    // Agregamos el vecino a la queue si no fue ya visitado
+                    if (!visited.Contains(neighbors[i].to))
+                    {
+                        unvisited.Enqueue(neighbors[i].to, totalWeight);
                     }
                 }
 
@@ -106,6 +113,13 @@ namespace ED262C
                     if (totalWeight < table[neighbors[i].to].weight)
                     {
                         table[neighbors[i].to].weight = totalWeight;
+                        table[neighbors[i].to].to = current;
+                    }
+
+                    // Agregamos el vecino a la queue si no fue ya visitado
+                    if (!visited.Contains(neighbors[i].to))
+                    {
+                        unvisited.Enqueue(neighbors[i].to, totalWeight);
                     }
                 }
 
