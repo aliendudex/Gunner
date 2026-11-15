@@ -14,7 +14,7 @@ namespace ED262C
             // Inicializamos la tabla
             GraphNode<T>[] vertices = graph.Vertices;
 
-            for(int i = 0; i < vertices.Length; i++)
+            for (int i = 0; i < vertices.Length; i++)
             {
                 result.Add(vertices[i], new Edge<GraphNode<T>>(null, int.MaxValue));
             }
@@ -36,7 +36,7 @@ namespace ED262C
                 ISimpleList<Edge<GraphNode<T>>> neighbors = graph.GetNeighbors(current);
 
                 // Recorremos toda la lista de vecinos
-                for(int i = 0; i < neighbors.Count; i++)
+                for (int i = 0; i < neighbors.Count; i++)
                 {
                     // Sumamos el costo total hasta el nodo actual (de la tabla)
                     // mas el costo de ese nodo actual hasta el vecino que estamos revisitando
@@ -44,7 +44,7 @@ namespace ED262C
 
                     // Si el costo total es menor al que esta en la tabla para el vecino
                     // actualizamos ese costo con el que calculamos (buscamos siempre el menor costo)
-                    if(totalWeight < result[neighbors[i].to].weight)
+                    if (totalWeight < result[neighbors[i].to].weight)
                     {
                         result[neighbors[i].to].weight = totalWeight;
                         result[neighbors[i].to].to = current;
@@ -89,7 +89,7 @@ namespace ED262C
                 // Sacamos el primer nodo de la queue
                 GraphNode<T> current = unvisited.Dequeue();
 
-                if(current == destination)
+                if (current == destination)
                 {
                     break;
                 }
@@ -139,7 +139,7 @@ namespace ED262C
             GraphNode<T> current = destination;
 
             // Mientras haya un nodo para evaluar...
-            while(current != null)
+            while (current != null)
             {
                 // Lo agregamos al camino
                 reversePath.Push(current);

@@ -29,6 +29,14 @@ public class MiniMapUI : MonoBehaviour
         {
             currentMapPosition += Vector2.up * roomDistance;
         }
+        else if (doorUsed == 3)
+        {
+            currentMapPosition += Vector2.left * roomDistance;
+        }
+        else if (doorUsed == 4)
+        {
+            currentMapPosition += Vector2.down * roomDistance;
+        }
         rect.anchoredPosition = currentMapPosition;
     }
 }

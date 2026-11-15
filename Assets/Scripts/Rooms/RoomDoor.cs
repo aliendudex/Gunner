@@ -18,6 +18,7 @@ public class RoomDoor : MonoBehaviour
 
  public void Unlock()
  {
+ 
  unlocked = true;
  Debug.Log("Puertas Desbloqueadas");
  }

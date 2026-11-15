@@ -5,7 +5,7 @@ namespace ED262C
         SimpleArrayDictionary<T, SimpleArrayList<Edge<T>>> adjacencyList;
         public ListGraph()
         {
-            adjacencyList = new SimpleArrayDictionary<T, SimpleArrayList<Edge<T>>> ();
+            adjacencyList = new SimpleArrayDictionary<T, SimpleArrayList<Edge<T>>>();
         }
 
         public T[] Vertices => adjacencyList.Keys();
@@ -89,7 +89,7 @@ namespace ED262C
             Edge<T> edge = GetEdge(from, to);
 
             // Si no esta el edge, tampoco se puede
-            if(edge == null)
+            if (edge == null)
             {
                 return false;
             }
@@ -133,7 +133,7 @@ namespace ED262C
             SimpleArrayList<Edge<T>> neighborEdges = adjacencyList[from];
 
             // Recorremos la lista de edges
-            for(int i = 0; i < neighborEdges.Count; i++)
+            for (int i = 0; i < neighborEdges.Count; i++)
             {
                 // Si el Edge tiene el mismo destino, es el que buscamos
                 //if (neighborEdges[i].ToString().Equals(to))

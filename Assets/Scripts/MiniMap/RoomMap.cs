@@ -3,7 +3,7 @@ using ED262C;
 
 public enum RoomDirection 
 { 
-    Up, Right 
+    Up, Right,Left,Down 
 }
 public class RoomMap : MonoBehaviour
 {

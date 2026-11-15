@@ -1,5 +1,6 @@
 using UnityEngine;
  using ED262C;
+using UnityEngine.SceneManagement;
 
 public class RoomGenerator : MonoBehaviour
  {
@@ -49,7 +50,7 @@ public class RoomGenerator : MonoBehaviour
  return;
  }
 
- GameObject room = Instantiate(initialRoom, Vector2.zero, Quaternion.identity);
+ GameObject room = Instantiate(initialRoom, new Vector3(-17.049118f, -3.69844198f, 0), Quaternion.identity);
 
  currentRoom = room.GetComponent<RoomController>();
 
@@ -72,6 +73,7 @@ public class RoomGenerator : MonoBehaviour
  if (generatedRooms >= maxRooms)
  {
  Debug.Log("Se alcanzo el maximo de salas.");
+ SceneManager.LoadScene("PantallaVictoria");
  return;
  }
 
@@ -123,6 +125,15 @@ public class RoomGenerator : MonoBehaviour
  else if (doorUsed == 2)
  {
  roomMap.AddConnection(currentRoomID, RoomDirection.Up);
+ }
+ if (doorUsed == 3)
+ {
+     roomMap.AddConnection(currentRoomID, RoomDirection.Left);
+ }
+
+ else if (doorUsed == 4)
+ {
+     roomMap.AddConnection(currentRoomID, RoomDirection.Down);
  }
  miniMapUI.AddRoom(currentRoomID, doorUsed);
  player.position = newRoom.transform.position;
