@@ -1,59 +1,117 @@
 using UnityEngine;
 using TMPro;
 using ED262C;
+using System.Collections.Concurrent;
+using UnityEngine.UI;
 
 public class InventoryShopTest : MonoBehaviour
 {
-    private SimpleArrayDictionary<int, string> inventory;
-    private SimpleArrayDictionary<int, string> shop;
-    [SerializeField] private TMP_Text shopText;
-    [SerializeField] private TMP_Text inventoryText;
+    [SerializeField] private ItemData[] shopItems;
+    [SerializeField] private GameObject shopItemPrefab;
+    [SerializeField] private Transform shopContent;
+    [SerializeField] private GameObject inventoryItemPrefab;
+    [SerializeField] private Transform inventoryContent;
+    private SimpleArrayDictionary<int, ItemData> inventory;
+    private SimpleArrayDictionary<int, ItemData> shop;
 
     private void Start()
     {
-        inventory = new SimpleArrayDictionary<int, string>();
-        shop = new SimpleArrayDictionary<int, string>();
+        inventory = new SimpleArrayDictionary<int, ItemData>();
+        shop = new SimpleArrayDictionary<int, ItemData>();
 
-        // Items de la Shop
-        shop.Add(101, "Potion");
-        shop.Add(102, "Sword");
-        shop.Add(103, "Shield");
+        foreach (ItemData item in shopItems)
+        {
+            shop.Add(item.id, item);
+        }
 
-        // Items que tiene el jugador
-        inventory.Add(101, "Potion");
-        inventory.Add(103, "Shield");
+        RefreshShop();
+        RefreshInventory();
+    }
 
-        Debug.Log("=== SHOP ===");
-        shopText.text = "=== SHOP ===\n";
+    private void QuickSort(int[] array, int inicio, int fin)
+    {
+        if (inicio >= fin) 
+            return;
+        int pivote = Partition(array, inicio, fin);
+        QuickSort(array, inicio, pivote - 1);
+        QuickSort(array, pivote + 1, fin);
+    }
+    
+    private int Partition(int[] array, int inicio, int fin)
+    {
+        int pivote = shop[array[fin]].cost;
+        int i = inicio - 1;
+
+        for (int j = inicio; j < fin; j++)
+        {
+            if (shop[array[j]].cost <= pivote)
+            {
+                i++;
+                (array[i], array[j]) = (array[j], array[i]);
+            }
+        }
+        (array[i + 1], array[fin]) = (array[fin], array[i + 1]);
+        return i + 1;
+    }
+
+    public void ObtainItem(int id)
+    {
+        if (shop.TryGetValue(id, out ItemData item))
+        {
+            shop.Remove(id);
+            inventory.Add(id, item);
+
+            Debug.Log("Obtuviste: " + item.itemName);
+            RefreshShop();
+            RefreshInventory();
+        }
+    }
+    private void RefreshShop()
+    {
+        for (int i = 0; i < shopContent.childCount; i++)
+        {
+            Destroy(shopContent.GetChild(i).gameObject);
+        }
 
         int[] shopIDs = shop.Keys();
-        string[] shopItems = shop.Values();
+        QuickSort(shopIDs, 0, shopIDs.Length - 1);
 
-        for (int i = 0; i < shop.Count; i++)
+        foreach (int id in shopIDs)
         {
-            Debug.Log("ID: " + shopIDs[i] + " | Item: " + shopItems[i]);
-            shopText.text += "ID: " + shopIDs[i] + " | " + shopItems[i] + "\n";
-        }
+            ItemData item = shop[id];
 
-        Debug.Log("=== INVENTARIO ===");
-        inventoryText.text = "=== INVENTARIO ===\n";
+            Debug.Log("ID: " + id +
+                      " | Item: " + item.itemName +
+                      " | Costo: " + item.cost);
+
+            GameObject newItem = Instantiate(shopItemPrefab, shopContent);
+            TMP_Text[] texts = newItem.GetComponentsInChildren<TMP_Text>();
+            texts[0].text = item.itemName;
+            texts[1].text = item.cost + " $";
+            Button button = newItem.GetComponent<Button>();
+            button.onClick.AddListener(() => ObtainItem(id));
+        }
+    }
+    private void RefreshInventory()
+    {
+        for (int i = 0; i < inventoryContent.childCount; i++)
+        {
+            Destroy(inventoryContent.GetChild(i).gameObject);
+        }
 
         int[] inventoryIDs = inventory.Keys();
-        string[] inventoryItems = inventory.Values();
+        QuickSort(inventoryIDs, 0, inventoryIDs.Length - 1);
 
-        for (int i = 0; i < inventory.Count; i++)
+        foreach (int id in inventoryIDs)
         {
-            Debug.Log("ID: " + inventoryIDs[i] + " | Item: " + inventoryItems[i]);
-            inventoryText.text += "ID: " + inventoryIDs[i] + " | " + inventoryItems[i] + "\n";
-        }
+            ItemData item = inventory[id];
 
-        Debug.Log("=== BUSCAR ITEM ===");
-
-        int itemID = 102;
-
-        if (shop.TryGetValue(itemID, out string item))
-        {
-            Debug.Log("El ID " + itemID + " corresponde a: " + item);
+            GameObject newItem = Instantiate(inventoryItemPrefab, inventoryContent);
+            TMP_Text[] texts = newItem.GetComponentsInChildren<TMP_Text>();
+            texts[0].text = item.itemName;
+            texts[1].text = item.cost + " $";
+            Button button = newItem.GetComponent<Button>();
+            button.interactable = false;
         }
     }
 }
