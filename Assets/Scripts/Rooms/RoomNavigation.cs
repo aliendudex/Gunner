@@ -25,10 +25,10 @@ namespace ED262C
             BuildGrid();
         }
 
-        private void Start()
-        {
-            TestPathfinding();
-        }
+        //private void Start()
+        //{
+        //    TestPathfinding();
+        //}
 
         private void TestPathfinding()
         {

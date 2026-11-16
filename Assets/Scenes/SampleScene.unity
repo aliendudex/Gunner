@@ -1221,8 +1221,10 @@ GameObject:
   - component: {fileID: 940772519}
   - component: {fileID: 940772518}
   - component: {fileID: 940772522}
-  - component: {fileID: 940772521}
   - component: {fileID: 940772523}
+  - component: {fileID: 940772526}
+  - component: {fileID: 940772525}
+  - component: {fileID: 940772524}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1332,28 +1334,6 @@ Transform:
   - {fileID: 1786295205}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &940772521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940772517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfbfb1b0114480342a3578ed7c4079a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  spawnAttack: {fileID: 272647204}
-  spawnOrigin: {fileID: 1786295204}
-  rb: {fileID: 940772518}
-  movement: {x: 0, y: 0}
-  animator: {fileID: 940772523}
-  hurted: 0
-  attack: 0
-  perish: 0
-  health: 2
-  attacked: {fileID: 563754562512057828, guid: 597067ae93bfee04ab693d947507755b, type: 3}
 --- !u!70 &940772522
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1413,6 +1393,56 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &940772524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940772517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13f17d5cb90295b408e4179dc8ef3d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 10
+--- !u!114 &940772525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940772517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ceb4b9e4890064191da2b3a77914be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Shoot
+  bulletPrefab: {fileID: 563754562512057828, guid: 728cb9be21efb0945b4ee6b1dd5ea2ac, type: 3}
+  firePoint: {fileID: 272647205}
+  fireRate: 0.25
+--- !u!114 &940772526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940772517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef9d084356decf4f8a152e215f12064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  spawnAttack: {fileID: 0}
+  spawnOrigin: {fileID: 0}
+  rb: {fileID: 940772518}
+  movement: {x: 0, y: 0}
+  animator: {fileID: 940772523}
+  hurted: 0
+  attack: 0
+  perish: 0
+  health: 2
+  attacked: {fileID: 0}
 --- !u!1 &1047302716
 GameObject:
   m_ObjectHideFlags: 0
