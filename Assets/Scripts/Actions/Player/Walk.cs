@@ -11,7 +11,7 @@ public class Walk : IState
     }
     public void Enter()
     {
-        speed = 5;
+        speed = 15;
         player.animator.SetBool("Idle", false);
         player.animator.SetBool("Move", true);
     }

@@ -1,4 +1,4 @@
-public enum EnemyContext
+    public enum EnemyContext
 {
     Die,
     Hurt,
