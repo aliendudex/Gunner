@@ -5,7 +5,7 @@ public class Shoot : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 0.25f;
-    [SerializeField] private ItemEffectManager effectManager;
+    //[SerializeField] private ItemEffectManager effectManager;
 
     private float nextFireTime;
 
@@ -30,7 +30,7 @@ public class Shoot : MonoBehaviour
             Quaternion.identity
         );
         Bullet bulletScript = bullet.GetComponent<Bullet>();
-        bulletScript.SetDamage(effectManager.damage);
+        //bulletScript.SetDamage(effectManager.damage);
 
         bullet.GetComponent<Bullet>().SetDirection(direction);
     }
