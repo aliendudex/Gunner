@@ -11,6 +11,7 @@ public class InventoryShopTest : MonoBehaviour
     [SerializeField] private Transform shopContent;
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private Transform inventoryContent;
+    [SerializeField] private ItemEffectManager effectManager;
     private SimpleArrayDictionary<int, ItemData> inventory;
     private SimpleArrayDictionary<int, ItemData> shop;
 
@@ -62,6 +63,7 @@ public class InventoryShopTest : MonoBehaviour
             inventory.Add(id, item);
 
             Debug.Log("Obtuviste: " + item.itemName);
+            effectManager.ApplyEffect(item);
             RefreshShop();
             RefreshInventory();
         }

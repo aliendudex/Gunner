@@ -12,6 +12,8 @@ public class RoomGenerator : MonoBehaviour
  [SerializeField] private RoomMap roomMap;
  [SerializeField] private MiniMapUI miniMapUI;
 
+ PlayerController playerController;
+
  private int currentRoomID = 0;
  private SimpleArrayQueue<RoomData> roomQueue;
  private RoomController currentRoom;
@@ -73,7 +75,7 @@ public class RoomGenerator : MonoBehaviour
  if (generatedRooms >= maxRooms)
  {
  Debug.Log("Se alcanzo el maximo de salas.");
- SceneManager.LoadScene("PantallaVictoria");
+ playerController.Victory();
  return;
  }
 
