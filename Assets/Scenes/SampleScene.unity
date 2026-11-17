@@ -786,7 +786,7 @@ MonoBehaviour:
   - {fileID: 6388202908544631689, guid: 99ced76977c083f41b7842bdcf863d7c, type: 3}
   - {fileID: 7667492247138782480, guid: 45320656beacaba49bc38182cd0c2555, type: 3}
   - {fileID: 1259413831909588530, guid: f0311a5a30df59b458799abee712fdb7, type: 3}
-  maxRooms: 11
+  maxRooms: 10
   roomMap: {fileID: 1047302717}
   miniMapUI: {fileID: 1593493826}
 --- !u!4 &435386807

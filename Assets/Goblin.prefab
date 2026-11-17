@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1033461307364088511}
   - component: {fileID: 1169603499238705063}
-  - component: {fileID: 7378299202570856609}
   - component: {fileID: -6177867065183293424}
   - component: {fileID: 509437219156163592}
   - component: {fileID: -7644184526338298497}
+  - component: {fileID: 5471466640747109551}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Untagged
@@ -95,21 +95,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &7378299202570856609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 864452903963896580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9001890b393e03941b35b1e597babcb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  attackRange: 1.5
-  chaseRange: 5
-  moveSpeed: 2.5
 --- !u!114 &-6177867065183293424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +138,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -196,3 +181,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &5471466640747109551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864452903963896580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de348cc549c72a24e93566139cea0eed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  attackDamage: 1
+  attackCooldown: 1
+  health: 1
+  attackRange: 1.5
+  chaseRange: 5
+  moveSpeed: 2
+  animator: {fileID: 0}
+  attack: {fileID: 0}
+  renderer: {fileID: 0}
+  actionBool: 1
+  repathInterval: 0.5
+  navigation: {fileID: 0}

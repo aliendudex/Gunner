@@ -1,145 +1,217 @@
 using UnityEngine;
- using ED262C;
+using ED262C;
 using UnityEngine.SceneManagement;
 
 public class RoomGenerator : MonoBehaviour
  {
- [Header("Rooms")]
- [SerializeField] private GameObject initialRoom;
- [SerializeField] private GameObject[] roomPrefabs;
- [SerializeField] private int maxRooms = 5;
+     [Header("Rooms")]
+     [SerializeField] private GameObject initialRoom;
+     [SerializeField] private GameObject[] roomPrefabs;
+     [SerializeField] private int maxRooms = 5;
 
- [SerializeField] private RoomMap roomMap;
- [SerializeField] private MiniMapUI miniMapUI;
+     [SerializeField] private RoomMap roomMap;
+     [SerializeField] private MiniMapUI miniMapUI;
+     PlayerController playerController;
 
- PlayerController playerController;
+     private int currentRoomID = 0;
+     private SimpleArrayQueue<RoomData> roomQueue;
+     private RoomController currentRoom;
 
- private int currentRoomID = 0;
- private SimpleArrayQueue<RoomData> roomQueue;
- private RoomController currentRoom;
+     private int generatedRooms;
 
- private int generatedRooms;
+     private void Start()
+     {
+         roomQueue = new SimpleArrayQueue<RoomData>();
 
- private void Start()
- {
- roomQueue = new SimpleArrayQueue<RoomData>();
+         //GenerateRoomQueue();
 
- GenerateRoomQueue();
+         SpawnInitialRoom();
+     }
 
- SpawnInitialRoom();
- }
+    //private void GenerateRoomQueue()
+    //{
+    //    int roomsToQueue = Mathf.Max(0, maxRooms - 1);
 
- private void GenerateRoomQueue()
- {
- int roomsToQueue = Mathf.Max(0, maxRooms - 1);
+    //    for (int i = 0; i < roomsToQueue; i++)
+    //    {
+    //        if (roomPrefabs.Length == 0)
+    //           return;
 
- for (int i = 0; i < roomsToQueue; i++)
- {
- if (roomPrefabs.Length == 0)
- return;
+    //        GameObject selectedPrefab = roomPrefabs[i % roomPrefabs.Length];
 
- GameObject selectedPrefab = roomPrefabs[i % roomPrefabs.Length];
+    //        roomQueue.Enqueue(new RoomData(selectedPrefab));
+    //    }
+    //}
+    private int GetOppositeDoor(int direction)
+    {
+        switch (direction)
+        {
+            case 1: 
+                return 3;
+            case 2: 
+                return 4;
+            case 3: 
+                return 1;
+            case 4: 
+                return 2;
+            default: 
+                return 0;
+        }
+    }
 
- roomQueue.Enqueue(new RoomData(selectedPrefab));
- }
- }
+    private GameObject GetRandomRoomPrefab(int forbiddenDirection)
+    {
+        GameObject[] validRooms = new GameObject[roomPrefabs.Length];
+        int validCount = 0;
 
- private void SpawnInitialRoom()
- {
- if (initialRoom == null)
- {
- Debug.LogError("No se asigno Initial Room.");
- return;
- }
+        foreach (GameObject prefab in roomPrefabs)
+        {
+            if (prefab == null) continue;
 
- GameObject room = Instantiate(initialRoom, new Vector3(-17.049118f, -3.69844198f, 0), Quaternion.identity);
+            RoomController controller = prefab.GetComponent<RoomController>();
 
- currentRoom = room.GetComponent<RoomController>();
+            if (controller == null) continue;
 
- if (currentRoom == null)
- {
- Debug.LogError("La sala inicial no tiene RoomController.");
- return;
- }
+            if (!controller.HasDoorDirection(forbiddenDirection))
+            {
+                validRooms[validCount] = prefab;
+                validCount++;
+            }
+        }
 
- currentRoomID = 1;
- generatedRooms = 1;
+        if (validCount == 0)
+        {
+            Debug.LogError("No hay salas disponibles para esta direccion.");
+            return null;
+        }
 
- currentRoom.Initialize(this);
- roomMap.DiscoverRoom(currentRoomID);
- miniMapUI.AddRoom(currentRoomID, 0);
-  }
+        //Mezcla rooms validas
+        for (int i = validCount - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
 
- public void GenerateNextRoom(RoomDoor door, Transform player, int doorUsed)
- {
- if (generatedRooms >= maxRooms)
- {
- Debug.Log("Se alcanzo el maximo de salas.");
- playerController.Victory();
- return;
- }
+            GameObject temp = validRooms[i];
+            validRooms[i] = validRooms[j];
+            validRooms[j] = temp;
+        }
 
- if (roomQueue.IsEmpty)
- {
- Debug.Log("No quedan salas en la Queue.");
- return;
- }
+        //Los candidatos vana a la queue
+        roomQueue = new SimpleArrayQueue<RoomData>();
 
- Transform nextRoomPoint = door.NextRoomPoint;
+        for (int i = 0; i < validCount; i++)
+        {
+            roomQueue.Enqueue(new RoomData(validRooms[i]));
+        }
 
- if (nextRoomPoint == null)
- {
- Debug.LogError("La puerta no tiene Next Room Point.");
- return;
- }
+        return roomQueue.Dequeue().roomPrefab;
+    }
+    private void SpawnInitialRoom()
+     {
+        if (initialRoom == null)
+        {
+             Debug.LogError("No se asigno Initial Room.");
+             return;
+        }
 
- RoomData roomData = roomQueue.Dequeue();
+        GameObject room = Instantiate(initialRoom, new Vector3(-17.049118f, -3.69844198f, 0), Quaternion.identity);
 
- GameObject newRoom = Instantiate(
- roomData.roomPrefab,
- roomData.roomPrefab.transform.position,
- roomData.roomPrefab.transform.rotation
- );
+        currentRoom = room.GetComponent<RoomController>();
 
- RoomController newRoomController = newRoom.GetComponent<RoomController>();
+         if (currentRoom == null)
+         {
+             Debug.LogError("La sala inicial no tiene RoomController.");
+             return;
+         }
 
- if (newRoomController == null)
- {
- Debug.LogError("El prefab de la sala no tiene RoomController.");
- Destroy(newRoom);
- return;
- }
- GameObject oldRoom = currentRoom.gameObject;
- newRoomController.Initialize(this);
+         currentRoomID = 1;
+         generatedRooms = 1;
 
- currentRoom = newRoomController;
+         currentRoom.Initialize(this);
+         roomMap.DiscoverRoom(currentRoomID);
+         miniMapUI.AddRoom(currentRoomID, 0);
+     }
 
- generatedRooms++;
- currentRoomID++;
+     public void GenerateNextRoom(RoomDoor door, Transform player, int doorUsed)
+     {
+         if (generatedRooms >= maxRooms)
+         {
+             Debug.Log("Se alcanzo el maximo de salas.");
+             playerController.Victory();
+             return;
+         }
 
- roomMap.DiscoverRoom(currentRoomID);
+         //if (roomQueue.IsEmpty)
+         //{
+         //    Debug.Log("No quedan salas en la Queue.");
+         //    return;
+         //}
 
- if (doorUsed == 1)
- {
- roomMap.AddConnection(currentRoomID, RoomDirection.Right);
- }
+         //Transform nextRoomPoint = door.NextRoomPoint;
+         Transform nextRoomPoint = door.NextRoomPoint;
+         int forbiddenDirection = GetOppositeDoor(doorUsed);
 
- else if (doorUsed == 2)
- {
- roomMap.AddConnection(currentRoomID, RoomDirection.Up);
- }
- if (doorUsed == 3)
- {
-     roomMap.AddConnection(currentRoomID, RoomDirection.Left);
- }
+         GameObject selectedPrefab = GetRandomRoomPrefab(forbiddenDirection);
 
- else if (doorUsed == 4)
- {
-     roomMap.AddConnection(currentRoomID, RoomDirection.Down);
- }
- miniMapUI.AddRoom(currentRoomID, doorUsed);
- player.position = newRoom.transform.position;
+         if (selectedPrefab == null)
+            return;
 
- Destroy(oldRoom);
- }
+         if (nextRoomPoint == null)
+         {
+             Debug.LogError("La puerta no tiene Next Room Point.");
+             return;
+         }
+
+         //RoomData roomData = roomQueue.Dequeue();
+
+         //GameObject newRoom = Instantiate(
+         //roomData.roomPrefab,
+         //roomData.roomPrefab.transform.position,
+         //roomData.roomPrefab.transform.rotation
+         //);
+         GameObject newRoom = Instantiate(
+         selectedPrefab,
+         selectedPrefab.transform.position,
+         selectedPrefab.transform.rotation
+         );
+
+         RoomController newRoomController = newRoom.GetComponent<RoomController>();
+
+         if (newRoomController == null)
+         {
+             Debug.LogError("El prefab de la sala no tiene RoomController.");
+             Destroy(newRoom);
+             return;
+         }
+         GameObject oldRoom = currentRoom.gameObject;
+         newRoomController.Initialize(this);
+         currentRoom = newRoomController;
+
+         generatedRooms++;
+         currentRoomID++;
+
+         roomMap.DiscoverRoom(currentRoomID);
+
+         if (doorUsed == 1)
+         {
+            roomMap.AddConnection(currentRoomID, RoomDirection.Right);
+         }
+
+         else if (doorUsed == 2)
+         {
+            roomMap.AddConnection(currentRoomID, RoomDirection.Up);
+         }
+         if (doorUsed == 3)
+         {
+             roomMap.AddConnection(currentRoomID, RoomDirection.Left);
+         }
+
+         else if (doorUsed == 4)
+         {
+             roomMap.AddConnection(currentRoomID, RoomDirection.Down);
+         }
+         miniMapUI.AddRoom(currentRoomID, doorUsed);
+         player.position = newRoom.transform.position;
+
+         Destroy(oldRoom);
+     }
  }

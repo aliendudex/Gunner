@@ -25,7 +25,7 @@ public class MiniMapUI : MonoBehaviour
         {
             currentMapPosition += Vector2.right * roomDistance;
         }
-        else if (doorUsed == 2) 
+        else if (doorUsed == 2)
         {
             currentMapPosition += Vector2.up * roomDistance;
         }

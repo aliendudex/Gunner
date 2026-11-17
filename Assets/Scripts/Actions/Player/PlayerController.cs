@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameObject spawnAttack;
-    [SerializeField] private GameObject spawnOrigin;
+    //[SerializeField] private GameObject spawnAttack;
+    //[SerializeField] private GameObject spawnOrigin;
     [SerializeField] private GameObject victoryPanel;
     [SerializeField] private GameObject defeatPanel;
     public StateMachine stateMachine;
@@ -81,20 +81,20 @@ public class PlayerController : MonoBehaviour
     {
         victoryPanel.SetActive(true);
     }
-    public void Attack()
-    {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //public void Attack()
+    //{
+    //    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector2 direction = (mousePosition - spawnAttack.transform.position).normalized;
+    //    Vector2 direction = (mousePosition - spawnAttack.transform.position).normalized;
 
-        GameObject bullet = Instantiate(
-            attacked,
-            spawnAttack.transform.position,
-            Quaternion.identity
-        );
+    //    GameObject bullet = Instantiate(
+    //        attacked,
+    //        spawnAttack.transform.position,
+    //        Quaternion.identity
+    //    );
 
-        bullet.GetComponent<Bullet>().SetDirection(direction);
-    }
+    //    bullet.GetComponent<Bullet>().SetDirection(direction);
+    //}
 
     public void LeftOrRight(bool flipdecide) 
     {

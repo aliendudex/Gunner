@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour
     private bool hurted = false;
     private int flip = 1;
     private GameObject player;
+    private PlayerHealth playerHealth;
 
     private SimpleArrayPriorityQueue<EnemyContext> priorityQueue;
 
@@ -45,7 +46,22 @@ public class EnemyAI : MonoBehaviour
     {
         actionBool = true;
         player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerHealth = player.GetComponent<PlayerHealth>();
+        }
         navigation = FindFirstObjectByType<RoomNavigation>();
+
+        renderer = GetComponent<SpriteRenderer>();
+        //Debug.Log("Enemy AI initialized.");
+        //Debug.Log("Player found: " + (player != null));
+        //Debug.Log("PlayerHealth found: " + (playerHealth != null));
+        //Debug.Log("Navigation found: " + (navigation != null));
+
+
+        //Debug.Log("Enemy AI initialized.");
+        //Debug.Log("Player found: " + (player != null));
+        //Debug.Log("Navigation found: " + (navigation != null));
     }
 
     private void Update()
@@ -97,7 +113,7 @@ public class EnemyAI : MonoBehaviour
 
             case EnemyContext.Attack:
                 Activator(false, false, true, false, false);
-                actionBool = false;
+                Attack();
                 break;
 
             case EnemyContext.Chase:
@@ -142,20 +158,26 @@ public class EnemyAI : MonoBehaviour
         Activator(false, true, false, false, false);
     }
 
-    public void Attack()
+    private void Attack()
     {
-        float angle = Mathf.Atan2(player.transform.position.y, player.transform.position.x) * Mathf.Rad2Deg - 90f;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        Quaternion final = Quaternion.Slerp(transform.rotation, rotation, 100 * Time.deltaTime);
-        Vector2 Direction = (player.transform.position - transform.position).normalized;
+        if (playerHealth == null)
+            return;
 
-        GameObject bullet = Instantiate(attack, transform.position, Quaternion.identity);
+        if (Time.time < nextAttackTime)
+            return;
 
-        bullet.GetComponent<HittingPlayer>().SetDirection(Direction);
+        playerHealth.TakeDamage(attackDamage);
+
+        nextAttackTime = Time.time + attackCooldown;
+
+        Debug.Log("Enemy attacked the player!");
     }
 
     private void Animations()
     {
+        if (animator == null)
+            return;
+
         animator.SetBool("Idle", animBools[0]);
         animator.SetBool("Move", animBools[1]);
         animator.SetBool("Attack", animBools[2]);
