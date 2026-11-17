@@ -9,12 +9,25 @@ public class RoomController : MonoBehaviour
     private RoomGenerator roomGenerator;
     private bool roomCompleted;
 
+    //public void Initialize(RoomGenerator generator)
+    //{
+    //    roomGenerator = generator;
+    //    Debug.Log("Sala creada");
+    //    doorA.Initialize(this);
+    //    doorB.Initialize(this);
+
+    //    roomCompleted = false;
+    //}
     public void Initialize(RoomGenerator generator)
     {
         roomGenerator = generator;
         Debug.Log("Sala creada");
-        doorA.Initialize(this);
-        doorB.Initialize(this);
+
+        if (doorA != null)
+            doorA.Initialize(this);
+
+        if (doorB != null)
+            doorB.Initialize(this);
 
         roomCompleted = false;
     }
@@ -51,20 +64,35 @@ public class RoomController : MonoBehaviour
         return true;
     }
 
+    //private void CompleteRoom()
+    //{
+    //    roomCompleted = true;
+    //    Debug.Log("Sala Completada");
+    //    doorA.Unlock();
+    //    doorB.Unlock();
+    //}
     private void CompleteRoom()
     {
         roomCompleted = true;
         Debug.Log("Sala Completada");
-        doorA.Unlock();
-        doorB.Unlock();
+
+        if (doorA != null)
+            doorA.Unlock();
+
+        if (doorB != null)
+            doorB.Unlock();
     }
 
     public void UseDoor(RoomDoor door, Transform player, int doorUsed)
     {
         roomGenerator.GenerateNextRoom(door, player, doorUsed);
     }
+    //public bool HasDoorDirection(int direction)
+    //{
+    //    return doorA.DoorUsed == direction || doorB.DoorUsed == direction;
+    //}
     public bool HasDoorDirection(int direction)
     {
-        return doorA.DoorUsed == direction || doorB.DoorUsed == direction;
+        return (doorA != null && doorA.DoorUsed == direction) || (doorB != null && doorB.DoorUsed == direction);
     }
 }

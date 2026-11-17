@@ -7,6 +7,7 @@ public class RoomGenerator : MonoBehaviour
      [Header("Rooms")]
      [SerializeField] private GameObject initialRoom;
      [SerializeField] private GameObject[] roomPrefabs;
+     [SerializeField] private GameObject finalRoomPrefab;
      [SerializeField] private int maxRooms = 5;
 
      [SerializeField] private RoomMap roomMap;
@@ -133,10 +134,15 @@ public class RoomGenerator : MonoBehaviour
 
      public void GenerateNextRoom(RoomDoor door, Transform player, int doorUsed)
      {
+         //if (generatedRooms >= maxRooms)
+         //{
+         //    Debug.Log("Se alcanzo el maximo de salas.");
+         //    playerController.Victory();
+         //    return;
+         //}
          if (generatedRooms >= maxRooms)
          {
-             Debug.Log("Se alcanzo el maximo de salas.");
-             playerController.Victory();
+             Debug.Log("Final room reached. Defeat the boss to win!");
              return;
          }
 
@@ -148,11 +154,26 @@ public class RoomGenerator : MonoBehaviour
 
          //Transform nextRoomPoint = door.NextRoomPoint;
          Transform nextRoomPoint = door.NextRoomPoint;
-         int forbiddenDirection = GetOppositeDoor(doorUsed);
+        //int forbiddenDirection = GetOppositeDoor(doorUsed);
 
-         GameObject selectedPrefab = GetRandomRoomPrefab(forbiddenDirection);
+        //GameObject selectedPrefab = GetRandomRoomPrefab(forbiddenDirection);
+        int forbiddenDirection = GetOppositeDoor(doorUsed);
 
-         if (selectedPrefab == null)
+        GameObject selectedPrefab;
+
+        if (generatedRooms + 1 >= maxRooms)
+        {
+            selectedPrefab = finalRoomPrefab;
+        }
+        else
+        {
+            selectedPrefab = GetRandomRoomPrefab(forbiddenDirection);
+        }
+
+        if (selectedPrefab == null)
+            return;
+
+        if (selectedPrefab == null)
             return;
 
          if (nextRoomPoint == null)

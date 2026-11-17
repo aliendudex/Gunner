@@ -609,53 +609,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomDoor
   nextRoomPoint: {fileID: 4410454978900518574}
   doorUsed: 3
---- !u!1 &1421741121780554736
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 871397745737234014}
-  - component: {fileID: 5737225182060749311}
-  m_Layer: 0
-  m_Name: EnemyFactory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &871397745737234014
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421741121780554736}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.41179, y: -0.19928998, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1342056085261477517}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5737225182060749311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421741121780554736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dae209de0b2aee84eaa26d672bb6fa47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyFactory
-  goblinPrefab: {fileID: 864452903963896580, guid: 59311bce64ee480468284be11d996a71, type: 3}
-  archerPrefab: {fileID: 8574606906256617098, guid: e5397aa8146375b4b8db71aaf3ed6b87, type: 3}
-  knightPrefab: {fileID: 7769589496535466068, guid: f61483e3d7811e74cb979dddc041cb57, type: 3}
 --- !u!1 &1623459097199538561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,6 +1202,37 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &2393547916572200260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9129443773917052206}
+  m_Layer: 0
+  m_Name: EnemyContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9129443773917052206
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2393547916572200260}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.71634, y: -0.47781968, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 397972152823707903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2961264280920258923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,6 +1457,7 @@ GameObject:
   - component: {fileID: 397972152823707903}
   - component: {fileID: 8025506842813617744}
   - component: {fileID: 8573909394283491594}
+  - component: {fileID: 5511684803250706567}
   m_Layer: 0
   m_Name: Room_BossT
   m_TagString: Untagged
@@ -1489,11 +1474,10 @@ Transform:
   m_GameObject: {fileID: 4014107102072982619}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.43, y: -24.2, z: 0}
+  m_LocalPosition: {x: -17.08, y: -3.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5079690630472816312}
   - {fileID: 1906368826656266577}
   - {fileID: 2215385859293127773}
   - {fileID: 1567090045042006712}
@@ -1501,8 +1485,9 @@ Transform:
   - {fileID: 7283746056065672768}
   - {fileID: 4088311888129122122}
   - {fileID: 3103479319981868780}
-  - {fileID: 1342056085261477517}
   - {fileID: 1328649252913263388}
+  - {fileID: 6560927862153494094}
+  - {fileID: 9129443773917052206}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8025506842813617744
@@ -1517,9 +1502,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa104e93d5bbdd147b8da1ba6d605209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomController
-  enemyContainer: {fileID: 1342056085261477517}
-  doorA: {fileID: 6106017957105989671}
-  doorB: {fileID: 8446014803197714872}
+  enemyContainer: {fileID: 9129443773917052206}
+  doorA: {fileID: 0}
+  doorB: {fileID: 0}
 --- !u!114 &8573909394283491594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1538,6 +1523,21 @@ MonoBehaviour:
   localOrigin: {x: -9.9, y: -6.99}
   testStart: {x: 0, y: 0}
   testDestination: {x: 21, y: 7}
+--- !u!114 &5511684803250706567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4014107102072982619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036da11392b23f5409cbc25ba6b8ed6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossSpawner
+  bossPrefab: {fileID: 5560610120024968508, guid: 83638e670080b704e91c18134d9191a4, type: 3}
+  spawnPoint: {fileID: 6560927862153494094}
+  enemyContainer: {fileID: 9129443773917052206}
 --- !u!1 &4065400352863782951
 GameObject:
   m_ObjectHideFlags: 0
@@ -3319,54 +3319,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 397972152823707903}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7418334594725057302
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1342056085261477517}
-  - component: {fileID: 6441688376823172587}
-  m_Layer: 0
-  m_Name: EnemySpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1342056085261477517
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7418334594725057302}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 26.855917, y: 0.57122755, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 871397745737234014}
-  m_Father: {fileID: 397972152823707903}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6441688376823172587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7418334594725057302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2350a2ac032f4a469d9fd35f7c9c3ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyFactory: {fileID: 5737225182060749311}
-  enemyContainer: {fileID: 871397745737234014}
-  numberOfEnemies: 0
 --- !u!1 &7487073577115243607
 GameObject:
   m_ObjectHideFlags: 0
@@ -3549,6 +3501,37 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &7827803657945082384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6560927862153494094}
+  m_Layer: 0
+  m_Name: BossSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6560927862153494094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827803657945082384}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 397972152823707903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7869763559740922893
 GameObject:
   m_ObjectHideFlags: 0
@@ -3731,125 +3714,3 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1001 &5199748965280140295
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 397972152823707903}
-    m_Modifications:
-    - target: {fileID: -6817512279483493360, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 568304a93c6472048b1b455cb79957a6, type: 2}
-    - target: {fileID: 864452903963896580, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_Name
-      value: Goblin
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.129999
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.2694836
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1169603499238705063, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_Color.b
-      value: 0.9137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 1169603499238705063, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_Color.g
-      value: 0.41357848
-      objectReference: {fileID: 0}
-    - target: {fileID: 1169603499238705063, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      propertyPath: m_Color.r
-      value: 0.0039215568
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7378299202570856609, guid: 59311bce64ee480468284be11d996a71, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 864452903963896580, guid: 59311bce64ee480468284be11d996a71, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 6616824233307477608}
-  m_SourcePrefab: {fileID: 100100000, guid: 59311bce64ee480468284be11d996a71, type: 3}
---- !u!1 &4888129030335293187 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 864452903963896580, guid: 59311bce64ee480468284be11d996a71, type: 3}
-  m_PrefabInstance: {fileID: 5199748965280140295}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6616824233307477608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4888129030335293187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6bbcf5ea429a1641bb6cf554ee3d30a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossAI
-  attackDamage: 1
-  attackCooldown: 1
-  health: 1
-  attackRange: 4
-  chaseRange: 5000
-  moveSpeed: 2
-  animator: {fileID: 7586995895325923351}
-  attack: {fileID: 7164318989180609454, guid: 837bbf6882c43be478070444abe1840a, type: 3}
-  madness: {fileID: 7164318989180609454, guid: eca897aeb17267b4e92af4efbbcc8d5b, type: 3}
-  renderer: {fileID: 6346271223962864544}
-  actionBool: 1
-  repathInterval: 0.5
-  navigation: {fileID: 0}
---- !u!4 &5079690630472816312 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1033461307364088511, guid: 59311bce64ee480468284be11d996a71, type: 3}
-  m_PrefabInstance: {fileID: 5199748965280140295}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &6346271223962864544 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 1169603499238705063, guid: 59311bce64ee480468284be11d996a71, type: 3}
-  m_PrefabInstance: {fileID: 5199748965280140295}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &7586995895325923351 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: -6817512279483493360, guid: 59311bce64ee480468284be11d996a71, type: 3}
-  m_PrefabInstance: {fileID: 5199748965280140295}
-  m_PrefabAsset: {fileID: 0}
