@@ -20,7 +20,7 @@ public class Die : IState
 
     public void UpdateState()
     {
-
+        if (player.Render.sprite == player.Sprites[1]) player.LessHealth();
     }
 }
 

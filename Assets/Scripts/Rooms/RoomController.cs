@@ -1,66 +1,98 @@
 using UnityEngine;
 
 public class RoomController : MonoBehaviour
- {
- [SerializeField] private Transform enemyContainer;
- [SerializeField] private RoomDoor doorA;
- [SerializeField] private RoomDoor doorB;
+{
+    [SerializeField] private Transform enemyContainer;
+    [SerializeField] private RoomDoor doorA;
+    [SerializeField] private RoomDoor doorB;
 
- private RoomGenerator roomGenerator;
- private bool roomCompleted;
+    private RoomGenerator roomGenerator;
+    private bool roomCompleted;
 
- public void Initialize(RoomGenerator generator)
- {
- roomGenerator = generator;
- Debug.Log("Sala creada");
- doorA.Initialize(this);
- doorB.Initialize(this);
+    //public void Initialize(RoomGenerator generator)
+    //{
+    //    roomGenerator = generator;
+    //    Debug.Log("Sala creada");
+    //    doorA.Initialize(this);
+    //    doorB.Initialize(this);
 
- roomCompleted = false;
- }
+    //    roomCompleted = false;
+    //}
+    public void Initialize(RoomGenerator generator)
+    {
+        roomGenerator = generator;
+        Debug.Log("Sala creada");
 
- private void Update()
- {
- if (roomCompleted)
- {
- return;
- }
+        if (doorA != null)
+            doorA.Initialize(this);
 
- if (AreAllEnemiesDead())
- {
- CompleteRoom();
- }
- }
+        if (doorB != null)
+            doorB.Initialize(this);
 
- private bool AreAllEnemiesDead()
- {
- if (enemyContainer == null)
- return true;
+        roomCompleted = false;
+    }
 
- Transform[] allChildren = enemyContainer.GetComponentsInChildren<Transform>();
+    private void Update()
+    {
+        if (roomCompleted)
+        {
+            return;
+        }
 
- foreach (Transform enemy in allChildren)
- {
- if (enemy == enemyContainer) continue;
+        if (AreAllEnemiesDead())
+        {
+            CompleteRoom();
+        }
+    }
 
- if (enemy.gameObject.activeInHierarchy)
- {
- return false;
- }
- }
- return true;
- }
+    private bool AreAllEnemiesDead()
+    {
+        if (enemyContainer == null)
+            return true;
 
- private void CompleteRoom()
- {
- roomCompleted = true;
- Debug.Log("Sala Completada");
- doorA.Unlock();
- doorB.Unlock();
- }
+        Transform[] allChildren = enemyContainer.GetComponentsInChildren<Transform>();
 
- public void UseDoor(RoomDoor door, Transform player, int doorUsed)
- {
- roomGenerator.GenerateNextRoom(door, player, doorUsed);
- }
- }
+        foreach (Transform enemy in allChildren)
+        {
+            if (enemy == enemyContainer) continue;
+
+            if (enemy.gameObject.activeInHierarchy)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //private void CompleteRoom()
+    //{
+    //    roomCompleted = true;
+    //    Debug.Log("Sala Completada");
+    //    doorA.Unlock();
+    //    doorB.Unlock();
+    //}
+    private void CompleteRoom()
+    {
+        roomCompleted = true;
+        Debug.Log("Sala Completada");
+
+        if (doorA != null)
+            doorA.Unlock();
+
+        if (doorB != null)
+            doorB.Unlock();
+    }
+
+    public void UseDoor(RoomDoor door, Transform player, int doorUsed)
+    {
+        roomGenerator.GenerateNextRoom(door, player, doorUsed);
+    }
+    //public bool HasDoorDirection(int direction)
+    //{
+    //    return doorA.DoorUsed == direction || doorB.DoorUsed == direction;
+    //}
+    public bool HasDoorDirection(int direction)
+    {
+        return (doorA != null && doorA.DoorUsed == direction) || (doorB != null && doorB.DoorUsed == direction);
+    }
+}

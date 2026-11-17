@@ -1,5 +1,4 @@
 using ED262C;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +7,6 @@ public class BossAI : MonoBehaviour
     [Header("AI Settings")]
     [SerializeField] private int attackDamage = 1;
     [SerializeField] private float attackCooldown = 1f;
-    [SerializeField] private float health = 1f;
     [SerializeField] private float attackRange = 4f;
     [SerializeField] private float chaseRange = 5000f;
     [SerializeField] private float moveSpeed = 2f;
@@ -20,8 +18,10 @@ public class BossAI : MonoBehaviour
     private bool[] animBools = new bool[5];
     public bool actionBool = true;
     private bool hurted = false;
+    private bool isDead;
     private int flip = 1;
     private GameObject player;
+    private PlayerHealth playerHealth;
 
     private SimpleArrayPriorityQueue<EnemyContext> priorityQueue;
 
@@ -37,7 +37,7 @@ public class BossAI : MonoBehaviour
     private ISimpleList<GraphNode<Vector2Int>> currentPath;
     private int pathIndex;
     private float nextPathTime;
-
+    PlayerController playerController;
     private void Awake()
     {
         priorityQueue = new SimpleArrayPriorityQueue<EnemyContext>();
@@ -49,12 +49,16 @@ public class BossAI : MonoBehaviour
         actionBool = true;
         player = GameObject.FindGameObjectWithTag("Player");
         navigation = FindFirstObjectByType<RoomNavigation>();
+        renderer = GetComponent<SpriteRenderer>();
+        if (player != null)
+            playerHealth = player.GetComponent<PlayerHealth>();
     }
 
     private void Update()
     {
         if (player == null || navigation == null)
             return;
+        if (isDead) return;
 
         EvaluateContexts();
 
@@ -81,9 +85,6 @@ public class BossAI : MonoBehaviour
 
         //if (hurted == true)
         //    priorityQueue.Enqueue(EnemyContext.Hurt, 1);
-
-        if (health <= 0)
-            priorityQueue.Enqueue(EnemyContext.Die, 0);
     }
 
     private void ExecuteContext(EnemyContext context)
@@ -100,7 +101,7 @@ public class BossAI : MonoBehaviour
 
             case EnemyContext.Attack:
                 Activator(false, false, true, false, false);
-                actionBool = false;
+                Attack();
                 break;
 
             case EnemyContext.Chase:
@@ -118,20 +119,53 @@ public class BossAI : MonoBehaviour
         Animations();
     }
 
+    //private void Chase()
+    //{
+    //    //transform.position = Vector2.MoveTowards(
+    //    //    transform.position,
+    //    //    player.transform.position,
+    //    //    moveSpeed * Time.deltaTime
+    //    //);
+    //    //
+    //    //float newL = Vector2.MoveTowards(
+    //    //    transform.position,
+    //    //    player.transform.position,
+    //    //    moveSpeed * Time.deltaTime
+    //    //).x;
+
+    //    if (Time.time >= nextPathTime)
+    //    {
+    //        CalculatePath();
+    //        nextPathTime = Time.time + repathInterval;
+    //    }
+
+    //    FollowPath();
+
+    //    if (transform.position.x < player.transform.position.x) renderer.flipX = false;
+    //    else renderer.flipX = true;
+    //    Activator(false, true, false, false, false);
+
+    //    if (attackCooldown > nextAttackTime)
+    //    {
+    //        nextAttackTime += Time.deltaTime * attackCooldown;
+    //        return;
+    //    }
+    //    else
+    //    {
+    //        float angle = Mathf.Atan2(player.transform.position.y, player.transform.position.x) * Mathf.Rad2Deg - 90f;
+    //        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    //        Quaternion final = Quaternion.Slerp(transform.rotation, rotation, 100 * Time.deltaTime);
+    //        Vector2 Direction = (player.transform.position - transform.position).normalized;
+
+    //        GameObject bullet = Instantiate(attack, transform.position, Quaternion.identity);
+
+    //        bullet.GetComponent<HittingPlayer>().SetDirection(Direction);
+
+    //        nextAttackTime = 0;
+    //    }
+    //}
     private void Chase()
     {
-        //transform.position = Vector2.MoveTowards(
-        //    transform.position,
-        //    player.transform.position,
-        //    moveSpeed * Time.deltaTime
-        //);
-        //
-        //float newL = Vector2.MoveTowards(
-        //    transform.position,
-        //    player.transform.position,
-        //    moveSpeed * Time.deltaTime
-        //).x;
-
         if (Time.time >= nextPathTime)
         {
             CalculatePath();
@@ -140,37 +174,38 @@ public class BossAI : MonoBehaviour
 
         FollowPath();
 
-        if (transform.position.x < player.transform.position.x) renderer.flipX = false;
-        else renderer.flipX = true;
+        if (renderer != null)
+        {
+            if (transform.position.x < player.transform.position.x)
+                renderer.flipX = false;
+            else
+                renderer.flipX = true;
+        }
+
         Activator(false, true, false, false, false);
-
-        if (attackCooldown > nextAttackTime)
-        {
-            nextAttackTime += Time.deltaTime * attackCooldown;
-            return;
-        }
-        else
-        {
-            float angle = Mathf.Atan2(player.transform.position.y, player.transform.position.x) * Mathf.Rad2Deg - 90f;
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            Quaternion final = Quaternion.Slerp(transform.rotation, rotation, 100 * Time.deltaTime);
-            Vector2 Direction = (player.transform.position - transform.position).normalized;
-
-            GameObject bullet = Instantiate(attack, transform.position, Quaternion.identity);
-
-            bullet.GetComponent<HittingPlayer>().SetDirection(Direction);
-
-            nextAttackTime = 0;
-        }
     }
+
+    //public void Attack()
+    //{
+    //    Instantiate(madness, transform.position, transform.rotation);
+    //}
 
     public void Attack()
     {
-        Instantiate(madness, transform.position, transform.rotation);
-    }
+        if (playerHealth == null) return;
 
+        if (Time.time < nextAttackTime) return;
+
+        playerHealth.TakeDamage(attackDamage);
+
+        nextAttackTime = Time.time + attackCooldown;
+
+        Debug.Log("Boss attacked the player!");
+    }
     private void Animations()
     {
+        if (animator == null) return;
+
         animator.SetBool("Idle", animBools[0]);
         animator.SetBool("Move", animBools[1]);
         animator.SetBool("Attack", animBools[2]);
@@ -230,22 +265,33 @@ public class BossAI : MonoBehaviour
         if (Vector2.Distance(transform.position, targetPosition) < 0.05f)
             pathIndex++;
     }
-    public void Ender(float damage)
-    {
-        health -= damage;
-        if (health > 0)
-        {
-            hurted = true;
-            Activator(false, false, false, false, true);
-        }
-        else hurted = false;
+    //public void Ender(float damage)
+    //{
+    //    health -= damage;
+    //    if (health > 0)
+    //    {
+    //        hurted = true;
+    //        Activator(false, false, false, false, true);
+    //    }
+    //    else hurted = false;
 
+    //    Animations();
+    //}
+    public void BeginDeath()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        actionBool = false;
+        hurted = false;
+
+        Activator(false, false, false, true, false);
         Animations();
     }
 
     public void Death()
     {
-        SceneManager.LoadScene("PantallaVictoria");
+        playerController.Victory();
     }
     public void Moving()
     {

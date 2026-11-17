@@ -25,10 +25,10 @@ namespace ED262C
             BuildGrid();
         }
 
-        private void Start()
-        {
-            TestPathfinding();
-        }
+        //private void Start()
+        //{
+        //    TestPathfinding();
+        //}
 
         private void TestPathfinding()
         {
@@ -80,10 +80,10 @@ namespace ED262C
             }
         }
 
+
         private void BuildGrid()
         {
             graph = new ListGraph<GraphNode<Vector2Int>>();
-
             nodes = new GraphNode<Vector2Int>[columns, rows];
 
             // First, create all grid nodes.
@@ -92,32 +92,32 @@ namespace ED262C
                 for (int y = 0; y < rows; y++)
                 {
                     Vector2Int cellPosition = new Vector2Int(x, y);
-
-                    GraphNode<Vector2Int> node =
-                        new GraphNode<Vector2Int>(cellPosition);
-
+                    GraphNode<Vector2Int> node = new GraphNode<Vector2Int>(cellPosition);
                     nodes[x, y] = node;
-
                     graph.AddVertex(node);
                 }
             }
 
-            // Next, connect each node to its neighbors.
+            // Next, connect only walkable cells.
             for (int x = 0; x < columns; x++)
             {
                 for (int y = 0; y < rows; y++)
                 {
+                    // Skip the outer border.
+                    if (!IsWalkable(x, y))
+                        continue;
+
                     GraphNode<Vector2Int> current = nodes[x, y];
 
-                    // Connect to the cell on the right.
-                    if (x + 1 < columns)
+                    // Connect to the right, if that cell is walkable.
+                    if (x + 1 < columns && IsWalkable(x + 1, y))
                     {
                         graph.AddEdge(current, nodes[x + 1, y], 1);
                         graph.AddEdge(nodes[x + 1, y], current, 1);
                     }
 
-                    // Connect to the cell above.
-                    if (y + 1 < rows)
+                    // Connect above, if that cell is walkable.
+                    if (y + 1 < rows && IsWalkable(x, y + 1))
                     {
                         graph.AddEdge(current, nodes[x, y + 1], 1);
                         graph.AddEdge(nodes[x, y + 1], current, 1);
@@ -127,6 +127,7 @@ namespace ED262C
 
             Debug.Log("Navigation grid created: " + columns + " x " + rows);
         }
+
 
         public ListGraph<GraphNode<Vector2Int>> GetGraph()
         {
@@ -195,6 +196,18 @@ namespace ED262C
                     );
                 }
             }
+        }
+        private bool IsWalkable(int x, int y)
+        {
+            return x > 0 && x < columns - 1 &&
+                   y > 0 && y < rows - 1;
+        }
+        public Vector3 GetRandomWalkablePosition()
+        {
+            int x = Random.Range(1, columns - 1);
+            int y = Random.Range(1, rows - 1);
+
+            return GetWorldPosition(new Vector2Int(x, y));
         }
     }
 

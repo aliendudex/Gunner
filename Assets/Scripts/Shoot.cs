@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class Shoot : MonoBehaviour
@@ -6,6 +5,7 @@ public class Shoot : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 0.25f;
+    //[SerializeField] private ItemEffectManager effectManager;
 
     private float nextFireTime;
 
@@ -29,6 +29,8 @@ public class Shoot : MonoBehaviour
             firePoint.position,
             Quaternion.identity
         );
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        //bulletScript.SetDamage(effectManager.damage);
 
         bullet.GetComponent<Bullet>().SetDirection(direction);
     }

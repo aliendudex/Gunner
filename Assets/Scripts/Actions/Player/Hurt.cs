@@ -35,8 +35,10 @@ public class Hurt : IState
         //    player.stateMachine.ChangeState(player.stateMachine.IdleState);
         //}
         //if(Input.GetKeyDown(KeyCode.E)) player.stateMachine.ChangeState(player.stateMachine.ShootState);
-        if (player.Health <= 0) player.stateMachine.ChangeState(player.stateMachine.DieState);
-        if(player.perish == false) player.stateMachine.ChangeState(player.stateMachine.IdleState);
+        if(player.Render.sprite == player.Sprites[0]) player.UnHurted();
+
+        if (player.Contact.CurrentHealth <= 0) player.stateMachine.ChangeState(player.stateMachine.DieState);
+        if(player.hurted == false) player.stateMachine.ChangeState(player.stateMachine.IdleState);
     }
 }
 

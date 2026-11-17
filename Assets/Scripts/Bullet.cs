@@ -14,6 +14,11 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    public void SetDamage(int newDamage)
+    {
+        damage = newDamage;
+    }
+
     public void SetDirection(Vector2 direction)
     {
         rb.linearVelocity = direction.normalized * speed;
@@ -23,10 +28,16 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         EnemyHealth enemy = other.GetComponent<EnemyHealth>();
+        BossHealth boss = other.GetComponent<BossHealth>();
 
         if (enemy != null)
         {
             enemy.TakeDamage(damage);
+            Destroy(gameObject);
+        }
+        if (boss != null)
+        {
+            boss.TakeDamage(damage);
             Destroy(gameObject);
         }
     }

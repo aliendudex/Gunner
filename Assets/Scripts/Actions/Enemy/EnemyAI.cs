@@ -13,12 +13,14 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject attack;
     [SerializeField] private SpriteRenderer renderer;
+    [SerializeField] private Sprite[] sprites = new Sprite[4];
 
     private bool[] animBools = new bool[5];
     public bool actionBool = true;
     private bool hurted = false;
     private int flip = 1;
     private GameObject player;
+    private PlayerHealth playerHealth;
 
     private SimpleArrayPriorityQueue<EnemyContext> priorityQueue;
 
@@ -34,6 +36,7 @@ public class EnemyAI : MonoBehaviour
     private ISimpleList<GraphNode<Vector2Int>> currentPath;
     private int pathIndex;
     private float nextPathTime;
+    private EnemyHealth himself;
 
     private void Awake()
     {
@@ -44,8 +47,24 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         actionBool = true;
+        himself = GetComponent<EnemyHealth>();
         player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerHealth = player.GetComponent<PlayerHealth>();
+        }
         navigation = FindFirstObjectByType<RoomNavigation>();
+
+        renderer = GetComponent<SpriteRenderer>();
+        //Debug.Log("Enemy AI initialized.");
+        //Debug.Log("Player found: " + (player != null));
+        //Debug.Log("PlayerHealth found: " + (playerHealth != null));
+        //Debug.Log("Navigation found: " + (navigation != null));
+
+
+        //Debug.Log("Enemy AI initialized.");
+        //Debug.Log("Player found: " + (player != null));
+        //Debug.Log("Navigation found: " + (navigation != null));
     }
 
     private void Update()
@@ -55,11 +74,12 @@ public class EnemyAI : MonoBehaviour
 
         EvaluateContexts();
 
-        if (!priorityQueue.IsEmpty && actionBool && !hurted)
+        if (!priorityQueue.IsEmpty && actionBool)
         {
             EnemyContext context = priorityQueue.Dequeue();
             ExecuteContext(context);
         }
+        ExecuteAnimation();
     }
 
     private void EvaluateContexts()
@@ -79,7 +99,7 @@ public class EnemyAI : MonoBehaviour
         if (hurted == true)
             priorityQueue.Enqueue(EnemyContext.Hurt, 1);
 
-        if (health <= 0)
+        if (himself.PublicHealth <= 0)
             priorityQueue.Enqueue(EnemyContext.Die, 0);
     }
 
@@ -89,15 +109,17 @@ public class EnemyAI : MonoBehaviour
         {
             case EnemyContext.Die:
                 Activator(false, false, false, true, false);
+                Stopping();
                 break;
 
             case EnemyContext.Hurt:
                 Activator(false, false, false, false, true);
+                Stopping();
                 break;
 
             case EnemyContext.Attack:
                 Activator(false, false, true, false, false);
-                actionBool = false;
+                Stopping();
                 break;
 
             case EnemyContext.Chase:
@@ -142,8 +164,16 @@ public class EnemyAI : MonoBehaviour
         Activator(false, true, false, false, false);
     }
 
-    public void Attack()
+    private void Attack()
     {
+        if (playerHealth == null)
+            return;
+
+        if (Time.time < nextAttackTime)
+            return;
+
+        //playerHealth.TakeDamage(attackDamage);
+
         float angle = Mathf.Atan2(player.transform.position.y, player.transform.position.x) * Mathf.Rad2Deg - 90f;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         Quaternion final = Quaternion.Slerp(transform.rotation, rotation, 100 * Time.deltaTime);
@@ -152,15 +182,29 @@ public class EnemyAI : MonoBehaviour
         GameObject bullet = Instantiate(attack, transform.position, Quaternion.identity);
 
         bullet.GetComponent<HittingPlayer>().SetDirection(Direction);
+
+        nextAttackTime = Time.time + attackCooldown;
+
+        Debug.Log("Enemy attacked the player!");
     }
 
     private void Animations()
     {
+        if (animator == null)
+            return;
+
         animator.SetBool("Idle", animBools[0]);
         animator.SetBool("Move", animBools[1]);
         animator.SetBool("Attack", animBools[2]);
         animator.SetBool("Die", animBools[3]);
         animator.SetBool("Hurt", animBools[4]);
+    }
+
+    private void ExecuteAnimation() 
+    {
+        if (renderer.sprite == sprites[0]) Attack();
+        if (renderer.sprite == sprites[1] || renderer.sprite == sprites[2]) Stopping();
+        if (renderer.sprite == sprites[3]) Death();
     }
 
     private void Activator(bool yeah1, bool yeah2, bool yeah3, bool yeah4, bool yeah5)
@@ -170,6 +214,7 @@ public class EnemyAI : MonoBehaviour
         animBools[2] = yeah3;
         animBools[3] = yeah4;
         animBools[4] = yeah5;
+
     }
 
     private void CalculatePath()
@@ -240,6 +285,11 @@ public class EnemyAI : MonoBehaviour
     public void Stopping()
     {
         actionBool = false;
+    }
+
+    public void Hurted()
+    {
+        hurted = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

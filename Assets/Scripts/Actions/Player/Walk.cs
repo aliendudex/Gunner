@@ -11,7 +11,7 @@ public class Walk : IState
     }
     public void Enter()
     {
-        speed = 5;
+        speed = 15;
         player.animator.SetBool("Idle", false);
         player.animator.SetBool("Move", true);
     }
@@ -34,8 +34,8 @@ public class Walk : IState
         {
             player.stateMachine.ChangeState(player.stateMachine.IdleState);
         }
-        if (Input.GetKeyDown(KeyCode.E)) player.stateMachine.ChangeState(player.stateMachine.ShootState);
-        if (player.perish == true) player.stateMachine.ChangeState(player.stateMachine.HurtState);
-        if (player.Health <= 0) player.stateMachine.ChangeState(player.stateMachine.DieState);
+        //if (Input.GetKeyDown(KeyCode.E)) player.stateMachine.ChangeState(player.stateMachine.ShootState);
+        if (player.hurted == true) player.stateMachine.ChangeState(player.stateMachine.HurtState);
+        if (player.Contact.CurrentHealth <= 0) player.stateMachine.ChangeState(player.stateMachine.DieState);
     }
 }

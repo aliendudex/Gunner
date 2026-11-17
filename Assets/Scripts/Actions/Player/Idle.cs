@@ -29,8 +29,8 @@ public class Idle : IState
         {
             player.stateMachine.ChangeState(player.stateMachine.WalkState);
         }
-        if (Input.GetKeyDown(KeyCode.E)) player.stateMachine.ChangeState(player.stateMachine.ShootState);
-        if (player.perish == true) player.stateMachine.ChangeState(player.stateMachine.HurtState);
-        if (player.Health <= 0) player.stateMachine.ChangeState(player.stateMachine.DieState);
+        //if (Input.GetKeyDown(KeyCode.E)) player.stateMachine.ChangeState(player.stateMachine.ShootState);
+        if (player.hurted == true) player.stateMachine.ChangeState(player.stateMachine.HurtState);
+        if (player.Contact.CurrentHealth <= 0) player.stateMachine.ChangeState(player.stateMachine.DieState);
     }
 }
