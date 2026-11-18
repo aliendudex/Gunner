@@ -81,20 +81,6 @@ public class PlayerController : MonoBehaviour
     {
         victoryPanel.SetActive(true);
     }
-    //public void Attack()
-    //{
-    //    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-    //    Vector2 direction = (mousePosition - spawnAttack.transform.position).normalized;
-
-    //    GameObject bullet = Instantiate(
-    //        attacked,
-    //        spawnAttack.transform.position,
-    //        Quaternion.identity
-    //    );
-
-    //    bullet.GetComponent<Bullet>().SetDirection(direction);
-    //}
 
     public void LeftOrRight(bool flipdecide) 
     {
@@ -104,5 +90,21 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("EvilHit")) LessHealth();
+    }
+    public void Defeat()
+    {
+        perish = true;
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Menu");
     }
 }

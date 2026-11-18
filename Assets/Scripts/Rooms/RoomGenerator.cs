@@ -29,20 +29,7 @@ public class RoomGenerator : MonoBehaviour
          SpawnInitialRoom();
      }
 
-    //private void GenerateRoomQueue()
-    //{
-    //    int roomsToQueue = Mathf.Max(0, maxRooms - 1);
-
-    //    for (int i = 0; i < roomsToQueue; i++)
-    //    {
-    //        if (roomPrefabs.Length == 0)
-    //           return;
-
-    //        GameObject selectedPrefab = roomPrefabs[i % roomPrefabs.Length];
-
-    //        roomQueue.Enqueue(new RoomData(selectedPrefab));
-    //    }
-    //}
+  
     private int GetOppositeDoor(int direction)
     {
         switch (direction)
@@ -134,29 +121,18 @@ public class RoomGenerator : MonoBehaviour
 
      public void GenerateNextRoom(RoomDoor door, Transform player, int doorUsed)
      {
-         //if (generatedRooms >= maxRooms)
-         //{
-         //    Debug.Log("Se alcanzo el maximo de salas.");
-         //    playerController.Victory();
-         //    return;
-         //}
+         
          if (generatedRooms >= maxRooms)
          {
              Debug.Log("Final room reached. Defeat the boss to win!");
              return;
          }
 
-         //if (roomQueue.IsEmpty)
-         //{
-         //    Debug.Log("No quedan salas en la Queue.");
-         //    return;
-         //}
+         
 
          //Transform nextRoomPoint = door.NextRoomPoint;
          Transform nextRoomPoint = door.NextRoomPoint;
-        //int forbiddenDirection = GetOppositeDoor(doorUsed);
 
-        //GameObject selectedPrefab = GetRandomRoomPrefab(forbiddenDirection);
         int forbiddenDirection = GetOppositeDoor(doorUsed);
 
         GameObject selectedPrefab;

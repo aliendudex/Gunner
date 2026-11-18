@@ -37,7 +37,7 @@ public class BossAI : MonoBehaviour
     private ISimpleList<GraphNode<Vector2Int>> currentPath;
     private int pathIndex;
     private float nextPathTime;
-    PlayerController playerController;
+    private PlayerController playerController;
     private void Awake()
     {
         priorityQueue = new SimpleArrayPriorityQueue<EnemyContext>();
@@ -51,6 +51,7 @@ public class BossAI : MonoBehaviour
         navigation = FindFirstObjectByType<RoomNavigation>();
         renderer = GetComponent<SpriteRenderer>();
         if (player != null)
+            playerController = player.GetComponent<PlayerController>();
             playerHealth = player.GetComponent<PlayerHealth>();
     }
 

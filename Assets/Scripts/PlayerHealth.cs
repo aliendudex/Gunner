@@ -33,5 +33,10 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("PLAYER DEFEATED!");
+
+        PlayerController controller = GetComponent<PlayerController>();
+
+        if (controller != null)
+            controller.Defeat();
     }
 }

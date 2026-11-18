@@ -86,7 +86,7 @@ namespace ED262C
             graph = new ListGraph<GraphNode<Vector2Int>>();
             nodes = new GraphNode<Vector2Int>[columns, rows];
 
-            // First, create all grid nodes.
+            //crear los nodos de la grid
             for (int x = 0; x < columns; x++)
             {
                 for (int y = 0; y < rows; y++)
@@ -98,25 +98,25 @@ namespace ED262C
                 }
             }
 
-            // Next, connect only walkable cells.
+            //solo conectar celdas donde se puede caminar
             for (int x = 0; x < columns; x++)
             {
                 for (int y = 0; y < rows; y++)
                 {
-                    // Skip the outer border.
+                    //saltear el borde exterior
                     if (!IsWalkable(x, y))
                         continue;
 
                     GraphNode<Vector2Int> current = nodes[x, y];
 
-                    // Connect to the right, if that cell is walkable.
+                    //Si la celda es caminable, conectar a la derecha
                     if (x + 1 < columns && IsWalkable(x + 1, y))
                     {
                         graph.AddEdge(current, nodes[x + 1, y], 1);
                         graph.AddEdge(nodes[x + 1, y], current, 1);
                     }
 
-                    // Connect above, if that cell is walkable.
+                    //Si la celda es caminable, conectar arriba
                     if (y + 1 < rows && IsWalkable(x, y + 1))
                     {
                         graph.AddEdge(current, nodes[x, y + 1], 1);
